@@ -23,7 +23,7 @@ class HeroWidget extends StatelessWidget {
         FittedBox(
           child: Text(
             title,
-            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold,letterSpacing: 50,color: Colors.white38),
+            style: TextStyle(fontSize: 40, fontWeight: FontWeight.normal,letterSpacing: 50,color: Colors.white38),
           ),
         ),
       ],

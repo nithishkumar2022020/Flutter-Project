@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:my_flutter_proj_dq/main.dart';
 import 'package:my_flutter_proj_dq/views/pages/login_page.dart';
 import 'package:my_flutter_proj_dq/views/widget_tree.dart';
 //import 'package:my_flutter_proj_dq/views/widgets/hero_widget.dart';
@@ -39,7 +40,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return WidgetTree();
+                          return LoginPage(title: "Register");
                         },
                       ),
             
@@ -52,7 +53,8 @@ class _WelcomePageState extends State<WelcomePage> {
                 ),
                 OutlinedButton(onPressed: () {
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-                    return LoginPage();
+                    return LoginPage(title:'Login'
+                    );
                   },
                   ),
                   );
@@ -61,8 +63,8 @@ class _WelcomePageState extends State<WelcomePage> {
                     minimumSize: Size(double.infinity, 40.0),
                
                 ),child: Text('Login'),
-                )
-              ],
+                ),
+                ],
             ),
           ),
         ),

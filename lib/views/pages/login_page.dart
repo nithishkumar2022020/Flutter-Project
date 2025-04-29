@@ -4,13 +4,17 @@ import 'package:my_flutter_proj_dq/views/pages/welcome_page.dart';
 import 'package:my_flutter_proj_dq/views/widget_tree.dart';
 import 'package:my_flutter_proj_dq/views/widgets/hero_widget.dart';
 
-TextEditingController controllerEmail = TextEditingController();
-TextEditingController controllerPassword = TextEditingController();
+TextEditingController controllerEmail = TextEditingController(text: '123');
+TextEditingController controllerPassword = TextEditingController(text: '123');
 String email='123';
 String password='123';
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({
+    super.key,
+    required this.title,
+  });
 
+final String title;
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -47,7 +51,8 @@ class _LoginPageState extends State<LoginPage> {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                HeroWidget(title: 'login'),
+                HeroWidget(title: widget.title
+                ),
                 SizedBox(height: 20),
                   TextField(
                     controller: controllerEmail,
@@ -82,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(double.infinity, 40.0),
                     ),
-                    child: Text('login'),
+                    child: Text(widget.title),
                     ),
                   
                 
@@ -95,13 +100,14 @@ class _LoginPageState extends State<LoginPage> {
   }
   void LoginonPressed() {
     if (email == controllerEmail.text && password == controllerPassword.text) {
-    Navigator.push(
+    Navigator.pushAndRemoveUntil(
                     context, MaterialPageRoute(
                       builder: (
                         context) {
                     return WidgetTree();
                   },
                   ),
+                  (route) => false,
                   );
 
   }
