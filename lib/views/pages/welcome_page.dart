@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:my_flutter_proj_dq/main.dart';
 import 'package:my_flutter_proj_dq/views/pages/login_page.dart';
-import 'package:my_flutter_proj_dq/views/widget_tree.dart';
+import 'package:my_flutter_proj_dq/views/pages/onboarding_page.dart';
 //import 'package:my_flutter_proj_dq/views/widgets/hero_widget.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -23,7 +22,10 @@ class _WelcomePageState extends State<WelcomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Lottie.asset('assets/lotties/Animation - 1743147138262 (1).json',height: 400.0),
+                Lottie.asset(
+                  'assets/lotties/Animation - 1743147138262 (1).json',
+                  height: 400.0,
+                ),
                 FittedBox(
                   child: Text(
                     'Web Knot',
@@ -40,10 +42,9 @@ class _WelcomePageState extends State<WelcomePage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return LoginPage(title: "Register");
+                          return Onboarding_Page();
                         },
                       ),
-            
                     );
                   },
                   style: FilledButton.styleFrom(
@@ -51,20 +52,23 @@ class _WelcomePageState extends State<WelcomePage> {
                   ),
                   child: Text('Get Started'),
                 ),
-                OutlinedButton(onPressed: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-                    return LoginPage(title:'Login'
+                OutlinedButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return LoginPage(title: 'Login');
+                        },
+                      ),
                     );
                   },
-                  ),
-                  );
-                },
-                style: FilledButton.styleFrom(
+                  style: FilledButton.styleFrom(
                     minimumSize: Size(double.infinity, 40.0),
-               
-                ),child: Text('Login'),
+                  ),
+                  child: Text('Login'),
                 ),
-                ],
+              ],
             ),
           ),
         ),

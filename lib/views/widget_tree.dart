@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_proj_dq/data/constants.dart';
 import 'package:my_flutter_proj_dq/data/notifiers.dart';
 import 'package:my_flutter_proj_dq/views/pages/home_page.dart';
 import 'package:my_flutter_proj_dq/views/pages/profile_page.dart';
 
 import 'package:my_flutter_proj_dq/views/NavBarWidget.dart';
 import 'package:my_flutter_proj_dq/views/pages/settings_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:my_flutter_proj_dq/views/pages/settings_page.dart';
 
 List<Widget> pages = [HomePage(), ProfilePage(), settingsPage()];
@@ -34,8 +36,11 @@ class WidgetTree extends StatelessWidget {
           ),
 
           IconButton(
-            onPressed: () {
+            onPressed: () async {
               pageThemeNotifier.value = !pageThemeNotifier.value;
+              final SharedPreferences prefs =
+                  await SharedPreferences.getInstance();
+              await prefs.setBool(Kconstants.isDarkKey, pageThemeNotifier.value);
             },
             icon: ValueListenableBuilder(
               valueListenable: pageThemeNotifier,

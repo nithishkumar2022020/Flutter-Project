@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_proj_dq/views/pages/home_page.dart';
+import 'package:lottie/lottie.dart';
+//import 'package:my_flutter_proj_dq/views/pages/home_page.dart';
 import 'package:my_flutter_proj_dq/views/pages/welcome_page.dart';
 import 'package:my_flutter_proj_dq/views/widget_tree.dart';
-import 'package:my_flutter_proj_dq/views/widgets/hero_widget.dart';
+//import 'package:my_flutter_proj_dq/views/widgets/hero_widget.dart';
 
 TextEditingController controllerEmail = TextEditingController(text: '123');
 TextEditingController controllerPassword = TextEditingController(text: '123');
@@ -20,11 +21,11 @@ final String title;
 }
 
 class _LoginPageState extends State<LoginPage> {
-  @override
-  void dispose() {
-    controllerPassword.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   controllerPassword.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +52,8 @@ class _LoginPageState extends State<LoginPage> {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                HeroWidget(title: widget.title
-                ),
-                SizedBox(height: 20),
+                Lottie.asset('assets/lotties/login2.json'),
+                
                   TextField(
                     controller: controllerEmail,
                     decoration: InputDecoration(
@@ -81,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   ),
                   SizedBox(height: 20),
-                    ElevatedButton(onPressed: () {
+                    OutlinedButton(onPressed: () {
                       LoginonPressed();
                     }, 
                     style: ElevatedButton.styleFrom(
