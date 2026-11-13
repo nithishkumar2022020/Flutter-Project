@@ -13,11 +13,18 @@ class ClearanceAuthScreen extends StatefulWidget {
 }
 
 class _ClearanceAuthScreenState extends State<ClearanceAuthScreen> {
-  bool _isSignUp = false; // false = Claim Clearance (Sign In), true = Issue Field Dossier (Sign Up)
+  bool _isSignUp =
+      false; // false = Claim Clearance (Sign In), true = Issue Field Dossier (Sign Up)
 
-  final TextEditingController _callSignController = TextEditingController(text: 'ARCH-9942');
-  final TextEditingController _passkeyController = TextEditingController(text: '••••••••••••');
-  final TextEditingController _researcherNameController = TextEditingController(text: 'Nithish R.');
+  final TextEditingController _callSignController = TextEditingController(
+    text: 'ARCH-9942',
+  );
+  final TextEditingController _passkeyController = TextEditingController(
+    text: '••••••••••••',
+  );
+  final TextEditingController _researcherNameController = TextEditingController(
+    text: 'Nithish R.',
+  );
   String _selectedClearance = 'Level-3 Architect';
 
   final List<String> _clearanceLevels = const [
@@ -35,9 +42,9 @@ class _ClearanceAuthScreenState extends State<ClearanceAuthScreen> {
   }
 
   void _proceedToWorkspace() {
-    Navigator.of(context).pushReplacement(
-      SmoothPageRoute(page: const RootShellScreen()),
-    );
+    Navigator.of(
+      context,
+    ).pushReplacement(SmoothPageRoute(page: const RootShellScreen()));
   }
 
   void _handleAuthenticate() async {
@@ -74,10 +81,14 @@ class _ClearanceAuthScreenState extends State<ClearanceAuthScreen> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final textColor = isDark ? AppTheme.nocturneText : AppTheme.parchmentText;
-    final mutedText = isDark ? AppTheme.nocturneMutedText : AppTheme.parchmentMutedText;
-    final vermilion = isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
-    final borderColor = isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
-    final surfaceColor = isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
+    final mutedText =
+        isDark ? AppTheme.nocturneMutedText : AppTheme.parchmentMutedText;
+    final vermilion =
+        isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
+    final borderColor =
+        isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
+    final surfaceColor =
+        isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
     final bg = isDark ? AppTheme.nocturneBg : AppTheme.parchmentBg;
 
     return Scaffold(
@@ -94,25 +105,45 @@ class _ClearanceAuthScreenState extends State<ClearanceAuthScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     color: vermilion,
                     child: Text(
                       'RESTRICTED PROTOCOL',
-                      style: AppTheme.monospace(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                      style: AppTheme.monospace(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   Consumer<SettingsProvider>(
-                    builder: (context, prov, _) => GestureDetector(
-                      onTap: () => prov.toggleNocturneMode(),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        decoration: BoxDecoration(border: Border.all(color: borderColor, width: 1.5)),
-                        child: Text(
-                          isDark ? '☀️ PARCHMENT' : '🌙 NOCTURNE',
-                          style: AppTheme.monospace(color: textColor, fontSize: 10, fontWeight: FontWeight.bold),
+                    builder:
+                        (context, prov, _) => GestureDetector(
+                          onTap: () => prov.toggleNocturneMode(),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: borderColor,
+                                width: 1.5,
+                              ),
+                            ),
+                            child: Text(
+                              isDark ? '☀️ PARCHMENT' : '🌙 NOCTURNE',
+                              style: AppTheme.monospace(
+                                color: textColor,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
                   ),
                 ],
               ),
@@ -121,7 +152,11 @@ class _ClearanceAuthScreenState extends State<ClearanceAuthScreen> {
               // Ledger Header Title
               Text(
                 'ARCHIVAL CLEARANCE //\nIDENTITY VERIFICATION',
-                style: AppTheme.slabHeader(color: textColor, fontSize: 24, height: 1.2),
+                style: AppTheme.slabHeader(
+                  color: textColor,
+                  fontSize: 24,
+                  height: 1.2,
+                ),
               ),
               const SizedBox(height: 6),
               Text(
@@ -146,8 +181,14 @@ class _ClearanceAuthScreenState extends State<ClearanceAuthScreen> {
                           border: Border(
                             left: BorderSide(color: borderColor, width: 2),
                             top: BorderSide(color: borderColor, width: 2),
-                            right: BorderSide(color: borderColor, width: !_isSignUp ? 2 : 1),
-                            bottom: BorderSide(color: borderColor, width: !_isSignUp ? 0 : 2),
+                            right: BorderSide(
+                              color: borderColor,
+                              width: !_isSignUp ? 2 : 1,
+                            ),
+                            bottom: BorderSide(
+                              color: borderColor,
+                              width: !_isSignUp ? 0 : 2,
+                            ),
                           ),
                         ),
                         child: Text(
@@ -173,10 +214,16 @@ class _ClearanceAuthScreenState extends State<ClearanceAuthScreen> {
                         decoration: BoxDecoration(
                           color: _isSignUp ? surfaceColor : Colors.transparent,
                           border: Border(
-                            left: BorderSide(color: borderColor, width: _isSignUp ? 2 : 1),
+                            left: BorderSide(
+                              color: borderColor,
+                              width: _isSignUp ? 2 : 1,
+                            ),
                             top: BorderSide(color: borderColor, width: 2),
                             right: BorderSide(color: borderColor, width: 2),
-                            bottom: BorderSide(color: borderColor, width: _isSignUp ? 0 : 2),
+                            bottom: BorderSide(
+                              color: borderColor,
+                              width: _isSignUp ? 0 : 2,
+                            ),
                           ),
                         ),
                         child: Text(
@@ -204,7 +251,11 @@ class _ClearanceAuthScreenState extends State<ClearanceAuthScreen> {
                     bottom: BorderSide(color: borderColor, width: 2),
                   ),
                   boxShadow: [
-                    BoxShadow(color: borderColor, offset: const Offset(4, 4), blurRadius: 0),
+                    BoxShadow(
+                      color: borderColor,
+                      offset: const Offset(4, 4),
+                      blurRadius: 0,
+                    ),
                   ],
                 ),
                 padding: const EdgeInsets.all(16),
@@ -214,7 +265,11 @@ class _ClearanceAuthScreenState extends State<ClearanceAuthScreen> {
                     if (_isSignUp) ...[
                       Text(
                         'RESEARCHER DESIGNATION',
-                        style: AppTheme.monospace(color: mutedText, fontSize: 10, fontWeight: FontWeight.bold),
+                        style: AppTheme.monospace(
+                          color: mutedText,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const SizedBox(height: 4),
                       _buildTextField(
@@ -231,7 +286,11 @@ class _ClearanceAuthScreenState extends State<ClearanceAuthScreen> {
 
                     Text(
                       'CALL SIGN / CLEARANCE ID',
-                      style: AppTheme.monospace(color: mutedText, fontSize: 10, fontWeight: FontWeight.bold),
+                      style: AppTheme.monospace(
+                        color: mutedText,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 4),
                     _buildTextField(
@@ -248,11 +307,18 @@ class _ClearanceAuthScreenState extends State<ClearanceAuthScreen> {
                     if (_isSignUp) ...[
                       Text(
                         'SECURITY CLEARANCE TIER',
-                        style: AppTheme.monospace(color: mutedText, fontSize: 10, fontWeight: FontWeight.bold),
+                        style: AppTheme.monospace(
+                          color: mutedText,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: bg,
                           border: Border.all(color: borderColor, width: 1.5),
@@ -263,15 +329,21 @@ class _ClearanceAuthScreenState extends State<ClearanceAuthScreen> {
                             value: _selectedClearance,
                             isExpanded: true,
                             dropdownColor: surfaceColor,
-                            style: AppTheme.monospace(color: textColor, fontSize: 12),
-                            items: _clearanceLevels.map((level) {
-                              return DropdownMenuItem(
-                                value: level,
-                                child: Text(level),
-                              );
-                            }).toList(),
+                            style: AppTheme.monospace(
+                              color: textColor,
+                              fontSize: 12,
+                            ),
+                            items:
+                                _clearanceLevels.map((level) {
+                                  return DropdownMenuItem(
+                                    value: level,
+                                    child: Text(level),
+                                  );
+                                }).toList(),
                             onChanged: (val) {
-                              if (val != null) setState(() => _selectedClearance = val);
+                              if (val != null) {
+                                setState(() => _selectedClearance = val);
+                              }
                             },
                           ),
                         ),
@@ -281,7 +353,11 @@ class _ClearanceAuthScreenState extends State<ClearanceAuthScreen> {
 
                     Text(
                       'SECURITY PASSKEY',
-                      style: AppTheme.monospace(color: mutedText, fontSize: 10, fontWeight: FontWeight.bold),
+                      style: AppTheme.monospace(
+                        color: mutedText,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 4),
                     _buildTextField(
@@ -313,7 +389,11 @@ class _ClearanceAuthScreenState extends State<ClearanceAuthScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(Icons.verified_user_outlined, color: Colors.white, size: 18),
+                            const Icon(
+                              Icons.verified_user_outlined,
+                              color: Colors.white,
+                              size: 18,
+                            ),
                             const SizedBox(width: 8),
                             Text(
                               'AUTHENTICATE & ENTER',
@@ -339,18 +419,29 @@ class _ClearanceAuthScreenState extends State<ClearanceAuthScreen> {
                   behavior: HitTestBehavior.opaque,
                   onTap: _handleGuestBypass,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
                     decoration: BoxDecoration(
                       border: Border.all(color: borderColor, width: 1.5),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.remove_red_eye_outlined, color: textColor, size: 16),
+                        Icon(
+                          Icons.remove_red_eye_outlined,
+                          color: textColor,
+                          size: 16,
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           'ENTER AS GUEST / OFFLINE OBSERVER ➔',
-                          style: AppTheme.monospace(color: textColor, fontSize: 11, fontWeight: FontWeight.bold),
+                          style: AppTheme.monospace(
+                            color: textColor,
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),

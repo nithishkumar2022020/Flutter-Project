@@ -75,7 +75,9 @@ class MockCorpusRepository implements ICorpusRepository {
 
     final newDoc = DocumentEntry(
       id: 'doc_${DateTime.now().millisecondsSinceEpoch}_${Random().nextInt(999)}',
-      title: filename.replaceAll(RegExp(r'\.[a-zA-Z0-9]+$'), '').replaceAll('_', ' '),
+      title: filename
+          .replaceAll(RegExp(r'\.[a-zA-Z0-9]+$'), '')
+          .replaceAll('_', ' '),
       filename: filename,
       chunkCount: (byteLength / 3500).clamp(10, 400).round(),
       sizeBytes: byteLength,

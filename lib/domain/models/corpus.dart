@@ -1,9 +1,4 @@
-enum IngestionStatus {
-  indexed,
-  indexing,
-  failed,
-  pending,
-}
+enum IngestionStatus { indexed, indexing, failed, pending }
 
 class DocumentEntry {
   final String id;
@@ -34,7 +29,8 @@ class DocumentEntry {
 
   factory DocumentEntry.fromJson(Map<String, dynamic> json) {
     final filename = json['filename']?.toString() ?? 'document.pdf';
-    final statusName = json['status']?.toString() ?? IngestionStatus.indexed.name;
+    final statusName =
+        json['status']?.toString() ?? IngestionStatus.indexed.name;
     final parsedStatus = IngestionStatus.values.firstWhere(
       (s) => s.name == statusName,
       orElse: () => IngestionStatus.indexed,
@@ -44,30 +40,35 @@ class DocumentEntry {
       id: json['id']?.toString() ?? json['document_id']?.toString() ?? '',
       title: json['title']?.toString() ?? titleFromFilename(filename),
       filename: filename,
-      chunkCount: json['chunkCount'] is int
-          ? json['chunkCount'] as int
-          : int.tryParse(json['chunks']?.toString() ?? '0') ?? 0,
-      sizeBytes: json['sizeBytes'] is int
-          ? json['sizeBytes'] as int
-          : int.tryParse(json['sizeBytes']?.toString() ?? '0') ?? 0,
-      updatedAt: DateTime.tryParse(json['updatedAt']?.toString() ?? '') ?? DateTime.now(),
+      chunkCount:
+          json['chunkCount'] is int
+              ? json['chunkCount'] as int
+              : int.tryParse(json['chunks']?.toString() ?? '0') ?? 0,
+      sizeBytes:
+          json['sizeBytes'] is int
+              ? json['sizeBytes'] as int
+              : int.tryParse(json['sizeBytes']?.toString() ?? '0') ?? 0,
+      updatedAt:
+          DateTime.tryParse(json['updatedAt']?.toString() ?? '') ??
+          DateTime.now(),
       status: parsedStatus,
-      indexingProgress: (json['indexingProgress'] is num)
-          ? (json['indexingProgress'] as num).toDouble()
-          : 1.0,
+      indexingProgress:
+          (json['indexingProgress'] is num)
+              ? (json['indexingProgress'] as num).toDouble()
+              : 1.0,
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'filename': filename,
-        'chunkCount': chunkCount,
-        'sizeBytes': sizeBytes,
-        'updatedAt': updatedAt.toIso8601String(),
-        'status': status.name,
-        'indexingProgress': indexingProgress,
-      };
+    'id': id,
+    'title': title,
+    'filename': filename,
+    'chunkCount': chunkCount,
+    'sizeBytes': sizeBytes,
+    'updatedAt': updatedAt.toIso8601String(),
+    'status': status.name,
+    'indexingProgress': indexingProgress,
+  };
 
   DocumentEntry copyWith({
     String? id,

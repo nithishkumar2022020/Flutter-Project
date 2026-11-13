@@ -34,7 +34,8 @@ class RagStreamRepository implements IRagStreamRepository {
 
     final topK = additionalParams?['topK'] ?? 5;
     final denseOnly = additionalParams?['denseOnly'] == true;
-    final docIds = (additionalParams?['documentIds'] as List?)
+    final docIds =
+        (additionalParams?['documentIds'] as List?)
             ?.whereType<String>()
             .map((e) => e.trim())
             .where((e) => e.isNotEmpty)
@@ -55,7 +56,8 @@ class RagStreamRepository implements IRagStreamRepository {
       'Query parameters prepared',
       stepId: 'prepare',
       isCompleted: true,
-      detail: '$scopeLabel · top_k=$topK · ${denseOnly ? 'dense vector' : 'hybrid'} retrieval',
+      detail:
+          '$scopeLabel · top_k=$topK · ${denseOnly ? 'dense vector' : 'hybrid'} retrieval',
     );
 
     if (useOfflineSim || targetUrl.isEmpty) {
@@ -68,7 +70,8 @@ class RagStreamRepository implements IRagStreamRepository {
       return;
     }
 
-    final isHttpUrl = targetUrl.startsWith('http://') || targetUrl.startsWith('https://');
+    final isHttpUrl =
+        targetUrl.startsWith('http://') || targetUrl.startsWith('https://');
     if (!isHttpUrl) {
       yield StreamErrorEvent('Invalid backend URL: "$targetUrl"');
       return;
@@ -86,9 +89,10 @@ class RagStreamRepository implements IRagStreamRepository {
             ? 'Retrying backend connection'
             : 'Searching corpus & synthesizing',
         stepId: 'backend_rag',
-        detail: attempts > 1 && !triedJsonFallback
-            ? 'Attempt $attempts of ${maxRetries + 1} · POST $activeUrl'
-            : 'POST $activeUrl · awaiting embedding, vector search & LLM response',
+        detail:
+            attempts > 1 && !triedJsonFallback
+                ? 'Attempt $attempts of ${maxRetries + 1} · POST $activeUrl'
+                : 'POST $activeUrl · awaiting embedding, vector search & LLM response',
       );
 
       final http.Client client;
@@ -102,9 +106,10 @@ class RagStreamRepository implements IRagStreamRepository {
       try {
         final request = http.Request('POST', Uri.parse(activeUrl));
         request.headers['Content-Type'] = 'application/json';
-        request.headers['Accept'] = activeUrl.endsWith('/stream')
-            ? 'text/event-stream, application/json'
-            : 'application/json, text/event-stream';
+        request.headers['Accept'] =
+            activeUrl.endsWith('/stream')
+                ? 'text/event-stream, application/json'
+                : 'application/json, text/event-stream';
         if (apiKey != null && apiKey.trim().isNotEmpty) {
           request.headers['Authorization'] = 'Bearer ${apiKey.trim()}';
         }
@@ -117,10 +122,13 @@ class RagStreamRepository implements IRagStreamRepository {
         }
         request.body = jsonEncode(payload);
 
-        final response = await client.send(request).timeout(const Duration(seconds: 30));
+        final response = await client
+            .send(request)
+            .timeout(const Duration(seconds: 30));
 
         if (response.statusCode >= 200 && response.statusCode < 300) {
-          final contentType = response.headers['content-type']?.toLowerCase() ?? '';
+          final contentType =
+              response.headers['content-type']?.toLowerCase() ?? '';
 
           if (contentType.contains('text/event-stream')) {
             yield const StreamStatusEvent(
@@ -134,7 +142,8 @@ class RagStreamRepository implements IRagStreamRepository {
             yield StreamStatusEvent(
               'Parsing grounded payload',
               stepId: 'parse',
-              detail: 'HTTP ${response.statusCode} received · extracting citations & answer',
+              detail:
+                  'HTTP ${response.statusCode} received · extracting citations & answer',
             );
             final bodyBytes = await response.stream.toBytes();
             if (_isCancelled) return;
@@ -147,22 +156,27 @@ class RagStreamRepository implements IRagStreamRepository {
             activeUrl.endsWith('/questions/stream')) {
           await response.stream.drain<void>();
           triedJsonFallback = true;
-          activeUrl = activeUrl.substring(0, activeUrl.length - '/stream'.length);
+          activeUrl = activeUrl.substring(
+            0,
+            activeUrl.length - '/stream'.length,
+          );
           attempts = 0; // Allow clean request on fallback endpoint
           yield StreamStatusEvent(
             'Falling back to JSON endpoint',
             stepId: 'fallback',
             isCompleted: true,
-            detail: 'SSE endpoint returned HTTP ${response.statusCode} · switching to $activeUrl',
+            detail:
+                'SSE endpoint returned HTTP ${response.statusCode} · switching to $activeUrl',
           );
           continue;
         } else {
           final errBytes = await response.stream.toBytes();
           final rawBody = utf8.decode(errBytes, allowMalformed: true).trim();
           final detail = _extractErrorDetail(rawBody);
-          final reason = (response.reasonPhrase?.trim().isNotEmpty ?? false)
-              ? ' (${response.reasonPhrase!.trim()})'
-              : '';
+          final reason =
+              (response.reasonPhrase?.trim().isNotEmpty ?? false)
+                  ? ' (${response.reasonPhrase!.trim()})'
+                  : '';
           yield StreamErrorEvent(
             'HTTP ${response.statusCode}$reason from $activeUrl'
             '${detail.isNotEmpty ? ': $detail' : ' — Backend unavailable or failed to process the query.'}',
@@ -171,7 +185,10 @@ class RagStreamRepository implements IRagStreamRepository {
         }
       } catch (e) {
         if (_isCancelled) {
-          yield const StreamErrorEvent('Stream cancelled by user.', isInterrupted: true);
+          yield const StreamErrorEvent(
+            'Stream cancelled by user.',
+            isInterrupted: true,
+          );
           return;
         }
         if (attempts <= maxRetries) {
@@ -194,7 +211,8 @@ class RagStreamRepository implements IRagStreamRepository {
     try {
       final decoded = jsonDecode(rawBody);
       if (decoded is Map) {
-        final detail = decoded['detail'] ?? decoded['message'] ?? decoded['error'];
+        final detail =
+            decoded['detail'] ?? decoded['message'] ?? decoded['error'];
         if (detail != null && detail.toString().trim().isNotEmpty) {
           return detail.toString().trim();
         }
@@ -206,7 +224,9 @@ class RagStreamRepository implements IRagStreamRepository {
   Stream<RagStreamEvent> _consumeJsonResponse(String bodyStr) async* {
     final decoded = jsonDecode(bodyStr);
     if (decoded is! Map<String, dynamic>) {
-      yield const StreamErrorEvent('Unexpected JSON response format from backend.');
+      yield const StreamErrorEvent(
+        'Unexpected JSON response format from backend.',
+      );
       return;
     }
 
@@ -284,7 +304,8 @@ class RagStreamRepository implements IRagStreamRepository {
       final trailingEvent = _parseSseBlock(buffer);
       if (trailingEvent != null) {
         yield trailingEvent;
-        if (trailingEvent is StreamDoneEvent || trailingEvent is StreamErrorEvent) {
+        if (trailingEvent is StreamDoneEvent ||
+            trailingEvent is StreamErrorEvent) {
           return;
         }
       }
@@ -313,7 +334,9 @@ class RagStreamRepository implements IRagStreamRepository {
 
     final data = dataLines.join('\n').trim();
     if (data.isEmpty) return null;
-    if (data == '[DONE]' || currentEvent == 'done') return const StreamDoneEvent();
+    if (data == '[DONE]' || currentEvent == 'done') {
+      return const StreamDoneEvent();
+    }
 
     try {
       final decoded = jsonDecode(data);
@@ -321,11 +344,12 @@ class RagStreamRepository implements IRagStreamRepository {
         if (currentEvent == 'error' ||
             decoded.containsKey('detail') ||
             decoded.containsKey('error')) {
-          final detail = (decoded['detail'] ??
-                  decoded['error'] ??
-                  decoded['message'] ??
-                  'Streaming error')
-              .toString();
+          final detail =
+              (decoded['detail'] ??
+                      decoded['error'] ??
+                      decoded['message'] ??
+                      'Streaming error')
+                  .toString();
           return StreamErrorEvent(detail);
         }
         if (decoded.containsKey('question')) {
@@ -344,7 +368,8 @@ class RagStreamRepository implements IRagStreamRepository {
             decoded.containsKey('text') ||
             decoded.containsKey('answer_chunk') ||
             decoded.containsKey('chunk')) {
-          final text = decoded['text'] ?? decoded['answer_chunk'] ?? decoded['chunk'];
+          final text =
+              decoded['text'] ?? decoded['answer_chunk'] ?? decoded['chunk'];
           if (text != null) {
             return AnswerChunkEvent(text.toString());
           }
@@ -377,21 +402,24 @@ class RagStreamRepository implements IRagStreamRepository {
       const Citation(
         id: 1,
         chunkId: 'chk_784f_neural',
-        textSpan: 'Dense vector retrieval projects tokens into a unified 1536-D latent manifold, bypassing vocabulary mismatch.',
+        textSpan:
+            'Dense vector retrieval projects tokens into a unified 1536-D latent manifold, bypassing vocabulary mismatch.',
         sourceDoc: 'Foundations of Neural Information Retrieval (2024)',
         score: 0.948,
       ),
       const Citation(
         id: 2,
         chunkId: 'chk_993b_rerank',
-        textSpan: 'Cross-attention rerankers compute full pairwise query-document interactions, suppressing false positives by 42%.',
+        textSpan:
+            'Cross-attention rerankers compute full pairwise query-document interactions, suppressing false positives by 42%.',
         sourceDoc: 'Hierarchical Reranking in Production RAG (v2.1)',
         score: 0.912,
       ),
       const Citation(
         id: 3,
         chunkId: 'chk_410a_context',
-        textSpan: 'Context compression and sliding-window chunking prevent attention dilution across 32k token windows.',
+        textSpan:
+            'Context compression and sliding-window chunking prevent attention dilution across 32k token windows.',
         sourceDoc: 'Large Language Model Context Architectures',
         score: 0.876,
       ),
@@ -421,7 +449,7 @@ class RagStreamRepository implements IRagStreamRepository {
       'deliver focused evidence spans ',
       'to the generative model, ',
       'guaranteeing verifiable attribution ',
-      'with near-zero hallucination.'
+      'with near-zero hallucination.',
     ];
 
     for (final token in responseTokens) {

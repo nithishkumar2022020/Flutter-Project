@@ -26,21 +26,13 @@ class RootShellScreenState extends State<RootShellScreen> {
     _pageController = PageController(initialPage: _currentPageNotifier.value);
     _pages = [
       RepaintBoundary(
-        child: IngestionScreen(
-          onNavigateToQuery: autoRouteToQueryCanvas,
-        ),
+        child: IngestionScreen(onNavigateToQuery: autoRouteToQueryCanvas),
       ),
       RepaintBoundary(
-        child: QueryCanvasScreen(
-          onNavigateToCorpus: () => navigateToPage(0),
-        ),
+        child: QueryCanvasScreen(onNavigateToCorpus: () => navigateToPage(0)),
       ),
-      const RepaintBoundary(
-        child: MatrixOverviewScreen(),
-      ),
-      const RepaintBoundary(
-        child: GraphTelemetryScreen(),
-      ),
+      const RepaintBoundary(child: MatrixOverviewScreen()),
+      const RepaintBoundary(child: GraphTelemetryScreen()),
     ];
   }
 
@@ -66,11 +58,9 @@ class RootShellScreenState extends State<RootShellScreen> {
   }
 
   void inspectChunkInMatrix(String chunkId) {
-    Navigator.of(context).push(
-      SmoothPageRoute(
-        page: ChunkInspectorScreen(chunkId: chunkId),
-      ),
-    );
+    Navigator.of(
+      context,
+    ).push(SmoothPageRoute(page: ChunkInspectorScreen(chunkId: chunkId)));
   }
 
   @override

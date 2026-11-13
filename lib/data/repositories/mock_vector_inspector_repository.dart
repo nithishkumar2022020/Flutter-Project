@@ -27,7 +27,8 @@ class MockVectorInspectorRepository implements IVectorInspectorRepository {
 
     return VectorInspectionData(
       chunkId: chunkId,
-      documentTitle: 'Neural IR & Vector Indexing Architecture (Chunk #${chunkId.hashCode % 500})',
+      documentTitle:
+          'Neural IR & Vector Indexing Architecture (Chunk #${chunkId.hashCode % 500})',
       dimension: 1536,
       previewEmbedding: preview,
       vectorMagnitude: 1.002,

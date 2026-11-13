@@ -30,8 +30,5 @@ class KnowledgeGraphData {
   final List<GraphNode> nodes;
   final List<GraphEdge> edges;
 
-  const KnowledgeGraphData({
-    required this.nodes,
-    required this.edges,
-  });
+  const KnowledgeGraphData({required this.nodes, required this.edges});
 }

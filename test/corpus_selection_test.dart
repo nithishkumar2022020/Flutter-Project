@@ -21,83 +21,113 @@ void main() {
   });
 
   group('CorpusProvider document selection', () {
-    test('supports single toggle, drag range selection, selectAll, and clearSelection', () async {
-      final provider = CorpusProvider(repository: MockCorpusRepository());
-      await provider.loadManifest();
-      expect(provider.documents.length, greaterThanOrEqualTo(3));
+    test(
+      'supports single toggle, drag range selection, selectAll, and clearSelection',
+      () async {
+        final provider = CorpusProvider(repository: MockCorpusRepository());
+        await provider.loadManifest();
+        expect(provider.documents.length, greaterThanOrEqualTo(3));
 
-      final firstId = provider.documents[0].id;
-      final secondId = provider.documents[1].id;
-      final thirdId = provider.documents[2].id;
+        final firstId = provider.documents[0].id;
+        final secondId = provider.documents[1].id;
+        final thirdId = provider.documents[2].id;
 
-      // Single toggle
-      provider.toggleSelection(firstId);
-      expect(provider.selectedDocumentIds, {firstId});
-      expect(provider.isSelected(firstId), true);
+        // Single toggle
+        provider.toggleSelection(firstId);
+        expect(provider.selectedDocumentIds, {firstId});
+        expect(provider.isSelected(firstId), true);
 
-      // Drag across index 0 -> 2 selects all 3 items
-      provider.applyDragRangeSelection(
-        anchorIndex: 0,
-        targetIndex: 2,
-        baseSelection: const {},
-      );
-      expect(provider.selectedDocumentIds, {firstId, secondId, thirdId});
+        // Drag across index 0 -> 2 selects all 3 items
+        provider.applyDragRangeSelection(
+          anchorIndex: 0,
+          targetIndex: 2,
+          baseSelection: const {},
+        );
+        expect(provider.selectedDocumentIds, {firstId, secondId, thirdId});
 
-      // Reverse drag preserves existing baseSelection
-      provider.clearSelection();
-      provider.toggleSelection(firstId);
-      provider.applyDragRangeSelection(
-        anchorIndex: 2,
-        targetIndex: 1,
-        baseSelection: {firstId},
-      );
-      expect(provider.selectedDocumentIds, {firstId, secondId, thirdId});
+        // Reverse drag preserves existing baseSelection
+        provider.clearSelection();
+        provider.toggleSelection(firstId);
+        provider.applyDragRangeSelection(
+          anchorIndex: 2,
+          targetIndex: 1,
+          baseSelection: {firstId},
+        );
+        expect(provider.selectedDocumentIds, {firstId, secondId, thirdId});
 
-      // Removing a document clears its selection
-      await provider.removeDocument(secondId);
-      expect(provider.isSelected(secondId), false);
-      expect(provider.selectedDocumentIds, {firstId, thirdId});
+        // Removing a document clears its selection
+        await provider.removeDocument(secondId);
+        expect(provider.isSelected(secondId), false);
+        expect(provider.selectedDocumentIds, {firstId, thirdId});
 
-      provider.clearSelection();
-      expect(provider.selectedDocumentIds, isEmpty);
-    });
+        provider.clearSelection();
+        expect(provider.selectedDocumentIds, isEmpty);
+      },
+    );
   });
 
   group('RagStreamRepository document scoping payload', () {
-    test('sends no filter for whole DB, document_id for 1 PDF, and document_ids for multiple PDFs', () async {
-      final capturedBodies = <Map<String, dynamic>>[];
-      final mockClient = MockClient((request) async {
-        capturedBodies.add(jsonDecode(request.body) as Map<String, dynamic>);
-        return http.Response(
-          jsonEncode({'answer': 'Scoped answer.', 'citations': []}),
-          200,
-          headers: {'content-type': 'application/json'},
-        );
-      });
+    test(
+      'sends no filter for whole DB, document_id for 1 PDF, and document_ids for multiple PDFs',
+      () async {
+        final capturedBodies = <Map<String, dynamic>>[];
+        final mockClient = MockClient((request) async {
+          capturedBodies.add(jsonDecode(request.body) as Map<String, dynamic>);
+          return http.Response(
+            jsonEncode({'answer': 'Scoped answer.', 'citations': []}),
+            200,
+            headers: {'content-type': 'application/json'},
+          );
+        });
 
-      final repo = RagStreamRepository(client: mockClient);
+        final repo = RagStreamRepository(client: mockClient);
 
-      await repo
-          .queryStream('Q1', sseUrl: 'http://localhost:8000/questions', additionalParams: {'documentIds': []})
-          .drain<void>();
-      await repo
-          .queryStream('Q2', sseUrl: 'http://localhost:8000/questions', additionalParams: {'documentIds': ['doc_single']})
-          .drain<void>();
-      await repo
-          .queryStream('Q3', sseUrl: 'http://localhost:8000/questions', additionalParams: {'documentIds': ['doc_a', 'doc_b']})
-          .drain<void>();
+        await repo
+            .queryStream(
+              'Q1',
+              sseUrl: 'http://localhost:8000/questions',
+              additionalParams: {'documentIds': []},
+            )
+            .drain<void>();
+        await repo
+            .queryStream(
+              'Q2',
+              sseUrl: 'http://localhost:8000/questions',
+              additionalParams: {
+                'documentIds': ['doc_single'],
+              },
+            )
+            .drain<void>();
+        await repo
+            .queryStream(
+              'Q3',
+              sseUrl: 'http://localhost:8000/questions',
+              additionalParams: {
+                'documentIds': ['doc_a', 'doc_b'],
+              },
+            )
+            .drain<void>();
 
-      expect(capturedBodies[0], {'question': 'Q1'});
-      expect(capturedBodies[1], {'question': 'Q2', 'document_id': 'doc_single'});
-      expect(capturedBodies[2], {'question': 'Q3', 'document_ids': ['doc_a', 'doc_b']});
-    });
+        expect(capturedBodies[0], {'question': 'Q1'});
+        expect(capturedBodies[1], {
+          'question': 'Q2',
+          'document_id': 'doc_single',
+        });
+        expect(capturedBodies[2], {
+          'question': 'Q3',
+          'document_ids': ['doc_a', 'doc_b'],
+        });
+      },
+    );
   });
 
   group('Tap and long-press slide selection UI', () {
     testWidgets(
       'tap selects 1 PDF and long-press slide selects range across cards',
       (tester) async {
-        final settingsProv = SettingsProvider(repository: ProfileSettingsRepository());
+        final settingsProv = SettingsProvider(
+          repository: ProfileSettingsRepository(),
+        );
         final corpusProv = CorpusProvider(repository: MockCorpusRepository());
 
         final capturedBodies = <Map<String, dynamic>>[];
@@ -117,15 +147,24 @@ void main() {
               ChangeNotifierProvider.value(value: settingsProv),
               ChangeNotifierProvider.value(value: corpusProv),
               ChangeNotifierProvider(
-                create: (_) => RagSessionProvider(repository: RagStreamRepository(client: mockClient)),
+                create:
+                    (_) => RagSessionProvider(
+                      repository: RagStreamRepository(client: mockClient),
+                    ),
               ),
             ],
             child: MaterialApp(
               home: StatefulBuilder(
                 builder: (context, setState) {
                   return showQuery
-                      ? QueryCanvasScreen(onNavigateToCorpus: () => setState(() => showQuery = false))
-                      : IngestionScreen(onNavigateToQuery: () => setState(() => showQuery = true));
+                      ? QueryCanvasScreen(
+                        onNavigateToCorpus:
+                            () => setState(() => showQuery = false),
+                      )
+                      : IngestionScreen(
+                        onNavigateToQuery:
+                            () => setState(() => showQuery = true),
+                      );
                 },
               ),
             ),
@@ -159,13 +198,19 @@ void main() {
         final startPos = tester.getCenter(firstCard);
         final endPos = tester.getCenter(thirdCard);
         final gesture = await tester.startGesture(startPos);
-        await tester.pump(kLongPressTimeout + const Duration(milliseconds: 100));
+        await tester.pump(
+          kLongPressTimeout + const Duration(milliseconds: 100),
+        );
         await gesture.moveTo(endPos);
         await tester.pump();
         await gesture.up();
         await tester.pumpAndSettle();
 
-        expect(corpusProv.selectedDocumentIds, {docs[0].id, docs[1].id, docs[2].id});
+        expect(corpusProv.selectedDocumentIds, {
+          docs[0].id,
+          docs[1].id,
+          docs[2].id,
+        });
         expect(find.text('RAG SCOPE: 3 PDFS SELECTED'), findsOneWidget);
 
         // Navigate to query screen via QUERY button and submit
@@ -173,12 +218,19 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(find.textContaining('SCOPE: 3 PDFS'), findsOneWidget);
-        await tester.enterText(find.byKey(const Key('query_prompt_input')), 'Summarize selected');
+        await tester.enterText(
+          find.byKey(const Key('query_prompt_input')),
+          'Summarize selected',
+        );
         await tester.tap(find.byKey(const Key('query_submit_btn')));
         await tester.pump(const Duration(milliseconds: 400));
         await tester.pumpAndSettle();
 
-        expect(capturedBodies.last['document_ids'], [docs[0].id, docs[1].id, docs[2].id]);
+        expect(capturedBodies.last['document_ids'], [
+          docs[0].id,
+          docs[1].id,
+          docs[2].id,
+        ]);
 
         // Clear scope on Query screen -> resets to whole database
         await tester.tap(find.byKey(const Key('query_scope_clear_btn')));

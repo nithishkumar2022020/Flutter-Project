@@ -26,11 +26,17 @@ class BrutalistContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bColor = borderColor ?? (isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder);
-    final defaultSurface = isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
+    final bColor =
+        borderColor ??
+        (isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder);
+    final defaultSurface =
+        isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
     final rawBgColor = backgroundColor ?? defaultSurface;
     // Composite translucent backgrounds onto surface so hard BoxShadow never bleeds through.
-    final bgColor = rawBgColor.a < 1.0 ? Color.alphaBlend(rawBgColor, defaultSurface) : rawBgColor;
+    final bgColor =
+        rawBgColor.a < 1.0
+            ? Color.alphaBlend(rawBgColor, defaultSurface)
+            : rawBgColor;
 
     Widget content = Container(
       margin: margin,
@@ -45,10 +51,7 @@ class BrutalistContainer extends StatelessWidget {
     );
 
     if (onTap != null) {
-      return GestureDetector(
-        onTap: onTap,
-        child: content,
-      );
+      return GestureDetector(onTap: onTap, child: content);
     }
 
     return content;

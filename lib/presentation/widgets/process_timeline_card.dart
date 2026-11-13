@@ -93,14 +93,21 @@ class _ProcessTimelineCardState extends State<ProcessTimelineCard> {
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final textColor = isDark ? AppTheme.nocturneText : AppTheme.parchmentText;
-    final mutedText = isDark ? AppTheme.nocturneMutedText : AppTheme.parchmentMutedText;
-    final vermilion = isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
+    final mutedText =
+        isDark ? AppTheme.nocturneMutedText : AppTheme.parchmentMutedText;
+    final vermilion =
+        isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
     final sage = isDark ? AppTheme.nocturneSage : AppTheme.parchmentSage;
-    final borderColor = isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
-    final surfaceColor = isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
+    final borderColor =
+        isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
+    final surfaceColor =
+        isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
 
     final elapsedText = _formatDuration(_currentElapsed);
-    final activeStep = widget.steps.where((s) => s.state == ProcessStepState.active).lastOrNull;
+    final activeStep =
+        widget.steps
+            .where((s) => s.state == ProcessStepState.active)
+            .lastOrNull;
 
     final String headerTitle;
     if (widget.isStreaming) {
@@ -111,9 +118,8 @@ class _ProcessTimelineCardState extends State<ProcessTimelineCard> {
       headerTitle = 'PROCESSED IN $elapsedText · ${widget.steps.length} STEPS';
     }
 
-    final accentColor = widget.hasError
-        ? vermilion
-        : (widget.isStreaming ? vermilion : sage);
+    final accentColor =
+        widget.hasError ? vermilion : (widget.isStreaming ? vermilion : sage);
 
     return BrutalistContainer(
       key: const Key('process_timeline_card'),
@@ -147,7 +153,9 @@ class _ProcessTimelineCardState extends State<ProcessTimelineCard> {
                     )
                   else
                     Icon(
-                      widget.hasError ? Icons.error_outline : Icons.check_circle_outline,
+                      widget.hasError
+                          ? Icons.error_outline
+                          : Icons.check_circle_outline,
                       size: 15,
                       color: accentColor,
                     ),
@@ -166,7 +174,10 @@ class _ProcessTimelineCardState extends State<ProcessTimelineCard> {
                   ),
                   const SizedBox(width: 8),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: accentColor.withValues(alpha: 0.45),
@@ -251,7 +262,10 @@ class _ProcessTimelineCardState extends State<ProcessTimelineCard> {
         nodeWidget = Container(
           width: 6,
           height: 6,
-          decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+          ),
         );
       case ProcessStepState.failed:
         nodeColor = vermilion;
@@ -300,7 +314,10 @@ class _ProcessTimelineCardState extends State<ProcessTimelineCard> {
                         child: Text(
                           step.title,
                           style: AppTheme.monospace(
-                            color: step.state == ProcessStepState.failed ? vermilion : textColor,
+                            color:
+                                step.state == ProcessStepState.failed
+                                    ? vermilion
+                                    : textColor,
                             fontSize: 11.5,
                             fontWeight: FontWeight.w700,
                           ),

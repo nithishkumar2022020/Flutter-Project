@@ -18,17 +18,23 @@ class CitationBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final vermilion = isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
-    final borderColor = isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
-    final surface = isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
+    final vermilion =
+        isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
+    final borderColor =
+        isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
+    final surface =
+        isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
 
-    final bgColor = hasSourceData
-        ? Color.alphaBlend(vermilion.withValues(alpha: 0.12), surface)
-        : surface;
-    final accentColor = hasSourceData ? vermilion : borderColor.withValues(alpha: 0.65);
+    final bgColor =
+        hasSourceData
+            ? Color.alphaBlend(vermilion.withValues(alpha: 0.12), surface)
+            : surface;
+    final accentColor =
+        hasSourceData ? vermilion : borderColor.withValues(alpha: 0.65);
 
     final badge = MouseRegion(
-      cursor: hasSourceData ? SystemMouseCursors.click : SystemMouseCursors.basic,
+      cursor:
+          hasSourceData ? SystemMouseCursors.click : SystemMouseCursors.basic,
       child: GestureDetector(
         onTap: onTap,
         behavior: HitTestBehavior.opaque,
@@ -51,7 +57,10 @@ class CitationBadge extends StatelessWidget {
               fontSize: 11,
               fontWeight: FontWeight.bold,
             ).copyWith(
-              decoration: hasSourceData ? TextDecoration.underline : TextDecoration.none,
+              decoration:
+                  hasSourceData
+                      ? TextDecoration.underline
+                      : TextDecoration.none,
               decorationColor: accentColor,
             ),
           ),
@@ -60,10 +69,7 @@ class CitationBadge extends StatelessWidget {
     );
 
     if (tooltip != null && tooltip!.isNotEmpty) {
-      return Tooltip(
-        message: tooltip!,
-        child: badge,
-      );
+      return Tooltip(message: tooltip!, child: badge);
     }
     return badge;
   }

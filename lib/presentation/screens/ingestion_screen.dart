@@ -12,16 +12,14 @@ import '../widgets/brutalist_container.dart';
 class IngestionScreen extends StatefulWidget {
   final VoidCallback onNavigateToQuery;
 
-  const IngestionScreen({
-    super.key,
-    required this.onNavigateToQuery,
-  });
+  const IngestionScreen({super.key, required this.onNavigateToQuery});
 
   @override
   State<IngestionScreen> createState() => _IngestionScreenState();
 }
 
-class _IngestionScreenState extends State<IngestionScreen> with AutomaticKeepAliveClientMixin {
+class _IngestionScreenState extends State<IngestionScreen>
+    with AutomaticKeepAliveClientMixin {
   final TextEditingController _quickQueryController = TextEditingController();
   final Map<int, GlobalKey> _itemKeys = {};
   int? _dragAnchorIndex;
@@ -86,7 +84,8 @@ class _IngestionScreenState extends State<IngestionScreen> with AutomaticKeepAli
       if (box == null || !box.attached) continue;
       final topLeft = box.localToGlobal(Offset.zero);
       final bottom = topLeft.dy + box.size.height;
-      if (globalPosition.dy >= topLeft.dy - 6 && globalPosition.dy <= bottom + 6) {
+      if (globalPosition.dy >= topLeft.dy - 6 &&
+          globalPosition.dy <= bottom + 6) {
         return entry.key;
       }
     }
@@ -99,7 +98,8 @@ class _IngestionScreenState extends State<IngestionScreen> with AutomaticKeepAli
 
     final ragSession = context.read<RagSessionProvider>();
     final settings = context.read<SettingsProvider>().settings;
-    final selectedIds = context.read<CorpusProvider>().selectedDocumentIds.toList();
+    final selectedIds =
+        context.read<CorpusProvider>().selectedDocumentIds.toList();
 
     ragSession.submitQuery(
       text,
@@ -175,10 +175,14 @@ class _IngestionScreenState extends State<IngestionScreen> with AutomaticKeepAli
     super.build(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final textColor = isDark ? AppTheme.nocturneText : AppTheme.parchmentText;
-    final mutedText = isDark ? AppTheme.nocturneMutedText : AppTheme.parchmentMutedText;
-    final vermilion = isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
-    final borderColor = isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
-    final surfaceColor = isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
+    final mutedText =
+        isDark ? AppTheme.nocturneMutedText : AppTheme.parchmentMutedText;
+    final vermilion =
+        isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
+    final borderColor =
+        isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
+    final surfaceColor =
+        isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
 
     return Scaffold(
       body: SafeArea(
@@ -189,20 +193,33 @@ class _IngestionScreenState extends State<IngestionScreen> with AutomaticKeepAli
             // Top Bar
             SliverToBoxAdapter(
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
                 decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: borderColor, width: 2)),
+                  border: Border(
+                    bottom: BorderSide(color: borderColor, width: 2),
+                  ),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       'CORPUS REPOSITORY',
-                      style: AppTheme.monospace(color: textColor, fontSize: 13, fontWeight: FontWeight.bold),
+                      style: AppTheme.monospace(
+                        color: textColor,
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Text(
                       'GESTURE: SWIPE ➔ QUERY',
-                      style: AppTheme.monospace(color: vermilion, fontSize: 11, fontWeight: FontWeight.bold),
+                      style: AppTheme.monospace(
+                        color: vermilion,
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -216,7 +233,11 @@ class _IngestionScreenState extends State<IngestionScreen> with AutomaticKeepAli
                   // Contextual Auto-Route Search Field
                   Text(
                     'CONTEXTUAL RAG SEARCH (AUTO-ROUTES)',
-                    style: AppTheme.monospace(color: mutedText, fontSize: 11, fontWeight: FontWeight.bold),
+                    style: AppTheme.monospace(
+                      color: mutedText,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 6),
                   Container(
@@ -224,17 +245,26 @@ class _IngestionScreenState extends State<IngestionScreen> with AutomaticKeepAli
                       bgColor: surfaceColor,
                       borderColor: borderColor,
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 4,
+                    ),
                     child: Row(
                       children: [
                         Expanded(
                           child: TextField(
                             controller: _quickQueryController,
-                            style: AppTheme.readingSerif(color: textColor, fontSize: 14),
+                            style: AppTheme.readingSerif(
+                              color: textColor,
+                              fontSize: 14,
+                            ),
                             onSubmitted: (_) => _submitAutoRouteQuery(),
                             decoration: InputDecoration(
                               hintText: 'Ask corpus or tap query to stream...',
-                              hintStyle: AppTheme.readingSerif(color: mutedText, fontSize: 14),
+                              hintStyle: AppTheme.readingSerif(
+                                color: mutedText,
+                                fontSize: 14,
+                              ),
                               border: InputBorder.none,
                               isDense: true,
                             ),
@@ -244,8 +274,15 @@ class _IngestionScreenState extends State<IngestionScreen> with AutomaticKeepAli
                           onTap: _submitAutoRouteQuery,
                           child: Container(
                             color: vermilion,
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                            child: const Icon(Icons.arrow_forward, color: Colors.white, size: 16),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 6,
+                            ),
+                            child: const Icon(
+                              Icons.arrow_forward,
+                              color: Colors.white,
+                              size: 16,
+                            ),
                           ),
                         ),
                       ],
@@ -259,39 +296,66 @@ class _IngestionScreenState extends State<IngestionScreen> with AutomaticKeepAli
                     children: [
                       Text(
                         'INGESTED MANIFEST',
-                        style: AppTheme.monospace(color: mutedText, fontSize: 11, fontWeight: FontWeight.bold),
+                        style: AppTheme.monospace(
+                          color: mutedText,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       Consumer<CorpusProvider>(
-                        builder: (context, corpus, _) => GestureDetector(
-                          key: const Key('corpus_ingest_btn'),
-                          onTap: corpus.isUploading ? null : () => _handleIngestPdf(vermilion),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                            decoration: AppTheme.brutalistDecoration(
-                              bgColor: corpus.isUploading ? mutedText : vermilion,
-                              borderColor: borderColor,
-                              borderWidth: 1.5,
-                              shadowOffset: const Offset(2, 2),
-                            ),
-                            child: Row(
-                              children: [
-                                if (corpus.isUploading)
-                                  const SizedBox(
-                                    width: 12,
-                                    height: 12,
-                                    child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                                  )
-                                else
-                                  const Icon(Icons.upload_file, color: Colors.white, size: 14),
-                                const SizedBox(width: 6),
-                                Text(
-                                  corpus.isUploading ? 'INGESTING...' : '+ INGEST PDF',
-                                  style: AppTheme.monospace(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold),
+                        builder:
+                            (context, corpus, _) => GestureDetector(
+                              key: const Key('corpus_ingest_btn'),
+                              onTap:
+                                  corpus.isUploading
+                                      ? null
+                                      : () => _handleIngestPdf(vermilion),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 6,
                                 ),
-                              ],
+                                decoration: AppTheme.brutalistDecoration(
+                                  bgColor:
+                                      corpus.isUploading
+                                          ? mutedText
+                                          : vermilion,
+                                  borderColor: borderColor,
+                                  borderWidth: 1.5,
+                                  shadowOffset: const Offset(2, 2),
+                                ),
+                                child: Row(
+                                  children: [
+                                    if (corpus.isUploading)
+                                      const SizedBox(
+                                        width: 12,
+                                        height: 12,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    else
+                                      const Icon(
+                                        Icons.upload_file,
+                                        color: Colors.white,
+                                        size: 14,
+                                      ),
+                                    const SizedBox(width: 6),
+                                    Text(
+                                      corpus.isUploading
+                                          ? 'INGESTING...'
+                                          : '+ INGEST PDF',
+                                      style: AppTheme.monospace(
+                                        color: Colors.white,
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
                       ),
                     ],
                   ),
@@ -311,11 +375,18 @@ class _IngestionScreenState extends State<IngestionScreen> with AutomaticKeepAli
                               Expanded(
                                 child: Text(
                                   corpus.error!,
-                                  style: AppTheme.monospace(color: vermilion, fontSize: 11),
+                                  style: AppTheme.monospace(
+                                    color: vermilion,
+                                    fontSize: 11,
+                                  ),
                                 ),
                               ),
                               IconButton(
-                                icon: Icon(Icons.close, size: 16, color: vermilion),
+                                icon: Icon(
+                                  Icons.close,
+                                  size: 16,
+                                  color: vermilion,
+                                ),
                                 onPressed: corpus.clearError,
                                 padding: EdgeInsets.zero,
                                 constraints: const BoxConstraints(),
@@ -329,11 +400,14 @@ class _IngestionScreenState extends State<IngestionScreen> with AutomaticKeepAli
                   // Selection Scope Bar
                   Consumer<CorpusProvider>(
                     builder: (context, corpus, _) {
-                      if (corpus.documents.isEmpty) return const SizedBox.shrink();
+                      if (corpus.documents.isEmpty) {
+                        return const SizedBox.shrink();
+                      }
                       final count = corpus.selectedDocumentIds.length;
                       final String scopeText;
                       if (count == 0) {
-                        scopeText = 'RAG SCOPE: ALL DATABASE (TAP OR HOLD & SLIDE)';
+                        scopeText =
+                            'RAG SCOPE: ALL DATABASE (TAP OR HOLD & SLIDE)';
                       } else if (count == 1) {
                         scopeText = 'RAG SCOPE: 1 PDF SELECTED';
                       } else {
@@ -343,13 +417,23 @@ class _IngestionScreenState extends State<IngestionScreen> with AutomaticKeepAli
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 12),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 8,
+                          ),
                           decoration: BoxDecoration(
-                            color: count > 0
-                                ? Color.alphaBlend(vermilion.withValues(alpha: 0.10), surfaceColor)
-                                : surfaceColor,
+                            color:
+                                count > 0
+                                    ? Color.alphaBlend(
+                                      vermilion.withValues(alpha: 0.10),
+                                      surfaceColor,
+                                    )
+                                    : surfaceColor,
                             border: Border.all(
-                              color: count > 0 ? vermilion : borderColor.withValues(alpha: 0.4),
+                              color:
+                                  count > 0
+                                      ? vermilion
+                                      : borderColor.withValues(alpha: 0.4),
                               width: 1.5,
                             ),
                           ),
@@ -401,7 +485,10 @@ class _IngestionScreenState extends State<IngestionScreen> with AutomaticKeepAli
                                   key: const Key('corpus_ask_selected_btn'),
                                   onTap: widget.onNavigateToQuery,
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 7,
+                                      vertical: 3,
+                                    ),
                                     color: vermilion,
                                     child: Text(
                                       'QUERY',
@@ -434,7 +521,10 @@ class _IngestionScreenState extends State<IngestionScreen> with AutomaticKeepAli
                         padding: const EdgeInsets.all(32),
                         child: Text(
                           'RETRIEVING MANIFEST...',
-                          style: AppTheme.monospace(color: mutedText, fontSize: 12),
+                          style: AppTheme.monospace(
+                            color: mutedText,
+                            fontSize: 12,
+                          ),
                         ),
                       ),
                     ),
@@ -451,12 +541,19 @@ class _IngestionScreenState extends State<IngestionScreen> with AutomaticKeepAli
                           children: [
                             Text(
                               'NO PDFS INGESTED FROM THIS DEVICE YET',
-                              style: AppTheme.monospace(color: textColor, fontSize: 12, fontWeight: FontWeight.bold),
+                              style: AppTheme.monospace(
+                                color: textColor,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             const SizedBox(height: 6),
                             Text(
                               'Tap "+ INGEST PDF" above to select a readable PDF and upload it to POST /documents for chunking and Milvus indexing.',
-                              style: AppTheme.readingSerif(color: mutedText, fontSize: 13),
+                              style: AppTheme.readingSerif(
+                                color: mutedText,
+                                fontSize: 13,
+                              ),
                             ),
                           ],
                         ),
@@ -468,118 +565,170 @@ class _IngestionScreenState extends State<IngestionScreen> with AutomaticKeepAli
                 return SliverPadding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final doc = corpus.documents[index];
-                        final isIndexed = doc.status == IngestionStatus.indexed;
-                        final isSelected = corpus.isSelected(doc.id);
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      final doc = corpus.documents[index];
+                      final isIndexed = doc.status == IngestionStatus.indexed;
+                      final isSelected = corpus.isSelected(doc.id);
 
-                        return Padding(
-                          key: _keyForIndex(index),
-                          padding: const EdgeInsets.only(bottom: 12),
-                          child: GestureDetector(
-                            key: Key('corpus_doc_card_${doc.id}'),
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () => corpus.toggleSelection(doc.id),
-                            onLongPressStart: (_) => _startDragSelection(index, corpus),
-                            onLongPressMoveUpdate: (details) =>
-                                _updateDragSelection(details.globalPosition, corpus),
-                            onLongPressEnd: (_) => _endDragSelection(),
-                            child: BrutalistContainer(
-                              backgroundColor: isSelected ? vermilion.withValues(alpha: 0.08) : null,
-                              borderColor: isSelected ? vermilion : borderColor,
-                              borderWidth: isSelected ? 2.5 : 2.0,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        width: 18,
-                                        height: 18,
-                                        margin: const EdgeInsets.only(right: 10),
-                                        decoration: BoxDecoration(
-                                          color: isSelected ? vermilion : Colors.transparent,
-                                          border: Border.all(
-                                            color: isSelected ? vermilion : borderColor,
-                                            width: 1.5,
-                                          ),
-                                        ),
-                                        child: isSelected
-                                            ? const Icon(Icons.check, size: 13, color: Colors.white)
-                                            : null,
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          doc.title,
-                                          style: AppTheme.slabHeader(color: textColor, fontSize: 16),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                        color: isSelected
-                                            ? vermilion
-                                            : (isIndexed
-                                                ? (isDark ? AppTheme.nocturneSage : AppTheme.parchmentSage).withValues(alpha: 0.2)
-                                                : (isDark ? AppTheme.nocturneAmber : AppTheme.parchmentAmber).withValues(alpha: 0.2)),
-                                        child: Text(
-                                          isSelected
-                                              ? 'RAG ACTIVE'
-                                              : (isIndexed ? 'INDEXED' : 'INDEXING'),
-                                          style: AppTheme.monospace(
-                                            color: isSelected
-                                                ? Colors.white
-                                                : (isIndexed
-                                                    ? (isDark ? AppTheme.nocturneSage : AppTheme.parchmentSage)
-                                                    : (isDark ? AppTheme.nocturneAmber : AppTheme.parchmentAmber)),
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    'FILE: ${doc.filename}  •  ID: ${doc.id}',
-                                    style: AppTheme.monospace(color: mutedText, fontSize: 10),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        '${doc.chunkCount} CHUNKS',
-                                        style: AppTheme.monospace(color: textColor, fontSize: 11, fontWeight: FontWeight.bold),
-                                      ),
-                                      if (doc.sizeBytes > 0) ...[
-                                        const SizedBox(width: 12),
-                                        Text(
-                                          '${(doc.sizeBytes / 1024).toStringAsFixed(1)} KB',
-                                          style: AppTheme.monospace(color: mutedText, fontSize: 11),
-                                        ),
-                                      ],
-                                    ],
-                                  ),
-                                ],
+                      return Padding(
+                        key: _keyForIndex(index),
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: GestureDetector(
+                          key: Key('corpus_doc_card_${doc.id}'),
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () => corpus.toggleSelection(doc.id),
+                          onLongPressStart:
+                              (_) => _startDragSelection(index, corpus),
+                          onLongPressMoveUpdate:
+                              (details) => _updateDragSelection(
+                                details.globalPosition,
+                                corpus,
                               ),
+                          onLongPressEnd: (_) => _endDragSelection(),
+                          child: BrutalistContainer(
+                            backgroundColor:
+                                isSelected
+                                    ? vermilion.withValues(alpha: 0.08)
+                                    : null,
+                            borderColor: isSelected ? vermilion : borderColor,
+                            borderWidth: isSelected ? 2.5 : 2.0,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      width: 18,
+                                      height: 18,
+                                      margin: const EdgeInsets.only(right: 10),
+                                      decoration: BoxDecoration(
+                                        color:
+                                            isSelected
+                                                ? vermilion
+                                                : Colors.transparent,
+                                        border: Border.all(
+                                          color:
+                                              isSelected
+                                                  ? vermilion
+                                                  : borderColor,
+                                          width: 1.5,
+                                        ),
+                                      ),
+                                      child:
+                                          isSelected
+                                              ? const Icon(
+                                                Icons.check,
+                                                size: 13,
+                                                color: Colors.white,
+                                              )
+                                              : null,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        doc.title,
+                                        style: AppTheme.slabHeader(
+                                          color: textColor,
+                                          fontSize: 16,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 6,
+                                        vertical: 2,
+                                      ),
+                                      color:
+                                          isSelected
+                                              ? vermilion
+                                              : (isIndexed
+                                                  ? (isDark
+                                                          ? AppTheme
+                                                              .nocturneSage
+                                                          : AppTheme
+                                                              .parchmentSage)
+                                                      .withValues(alpha: 0.2)
+                                                  : (isDark
+                                                          ? AppTheme
+                                                              .nocturneAmber
+                                                          : AppTheme
+                                                              .parchmentAmber)
+                                                      .withValues(alpha: 0.2)),
+                                      child: Text(
+                                        isSelected
+                                            ? 'RAG ACTIVE'
+                                            : (isIndexed
+                                                ? 'INDEXED'
+                                                : 'INDEXING'),
+                                        style: AppTheme.monospace(
+                                          color:
+                                              isSelected
+                                                  ? Colors.white
+                                                  : (isIndexed
+                                                      ? (isDark
+                                                          ? AppTheme
+                                                              .nocturneSage
+                                                          : AppTheme
+                                                              .parchmentSage)
+                                                      : (isDark
+                                                          ? AppTheme
+                                                              .nocturneAmber
+                                                          : AppTheme
+                                                              .parchmentAmber)),
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'FILE: ${doc.filename}  •  ID: ${doc.id}',
+                                  style: AppTheme.monospace(
+                                    color: mutedText,
+                                    fontSize: 10,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 4),
+                                Row(
+                                  children: [
+                                    Text(
+                                      '${doc.chunkCount} CHUNKS',
+                                      style: AppTheme.monospace(
+                                        color: textColor,
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    if (doc.sizeBytes > 0) ...[
+                                      const SizedBox(width: 12),
+                                      Text(
+                                        '${(doc.sizeBytes / 1024).toStringAsFixed(1)} KB',
+                                        style: AppTheme.monospace(
+                                          color: mutedText,
+                                          fontSize: 11,
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
-                        );
-                      },
-                      childCount: corpus.documents.length,
-                    ),
+                        ),
+                      );
+                    }, childCount: corpus.documents.length),
                   ),
                 );
               },
             ),
 
-            const SliverToBoxAdapter(
-              child: SizedBox(height: 80),
-            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 80)),
           ],
         ),
       ),

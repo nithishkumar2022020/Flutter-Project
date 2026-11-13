@@ -4,25 +4,26 @@ class HeroWidget extends StatelessWidget {
   const HeroWidget({super.key, required this.title, required this.nextPage});
 
   final String title;
-  final Widget ? nextPage;
+  final Widget? nextPage;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: nextPage !=null ? () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => nextPage!,
-          ),
-        );
-      } : null,
+      onTap:
+          nextPage != null
+              ? () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => nextPage!),
+                );
+              }
+              : null,
       child: Stack(
         alignment: Alignment.center,
         children: [
           Hero(
             tag: 'hero1',
             child: AspectRatio(
-              aspectRatio: 1920/1080,
+              aspectRatio: 1920 / 1080,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.asset(

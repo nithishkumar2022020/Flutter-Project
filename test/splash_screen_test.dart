@@ -30,8 +30,12 @@ void main() {
   }
 
   group('ArchivalSplashScreen Typewriter Tests', () {
-    testWidgets('renders typewriter terminal and types out SYNQRA and subtitle', (tester) async {
-      final settingsProv = SettingsProvider(repository: ProfileSettingsRepository());
+    testWidgets('renders typewriter terminal and types out SYNQRA and subtitle', (
+      tester,
+    ) async {
+      final settingsProv = SettingsProvider(
+        repository: ProfileSettingsRepository(),
+      );
 
       await tester.pumpWidget(
         buildTestSplash(
@@ -51,13 +55,20 @@ void main() {
       await tester.pump(const Duration(milliseconds: 1700));
 
       expect(find.text('SYNQRA'), findsOneWidget);
-      expect(find.textContaining('NEURAL RETRIEVAL & ATTRIBUTION CANVAS'), findsOneWidget);
+      expect(
+        find.textContaining('NEURAL RETRIEVAL & ATTRIBUTION CANVAS'),
+        findsOneWidget,
+      );
       expect(find.byType(CustomPaint), findsWidgets);
     });
 
-    testWidgets('advancing past duration completes animation callback', (tester) async {
+    testWidgets('advancing past duration completes animation callback', (
+      tester,
+    ) async {
       var completed = false;
-      final settingsProv = SettingsProvider(repository: ProfileSettingsRepository());
+      final settingsProv = SettingsProvider(
+        repository: ProfileSettingsRepository(),
+      );
 
       await tester.pumpWidget(
         buildTestSplash(
@@ -78,7 +89,9 @@ void main() {
 
     testWidgets('tapping screen skips animation immediately', (tester) async {
       var completed = false;
-      final settingsProv = SettingsProvider(repository: ProfileSettingsRepository());
+      final settingsProv = SettingsProvider(
+        repository: ProfileSettingsRepository(),
+      );
 
       await tester.pumpWidget(
         buildTestSplash(

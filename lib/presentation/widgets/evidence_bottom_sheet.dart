@@ -12,11 +12,15 @@ void showEvidenceBottomSheet(BuildContext context, Citation citation) {
     backgroundColor: Colors.transparent,
     builder: (context) {
       final isDark = Theme.of(context).brightness == Brightness.dark;
-      final bgColor = isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
+      final bgColor =
+          isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
       final textColor = isDark ? AppTheme.nocturneText : AppTheme.parchmentText;
-      final mutedText = isDark ? AppTheme.nocturneMutedText : AppTheme.parchmentMutedText;
-      final vermilion = isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
-      final borderColor = isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
+      final mutedText =
+          isDark ? AppTheme.nocturneMutedText : AppTheme.parchmentMutedText;
+      final vermilion =
+          isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
+      final borderColor =
+          isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
 
       return DraggableScrollableSheet(
         initialChildSize: 0.85,
@@ -64,17 +68,28 @@ void showEvidenceBottomSheet(BuildContext context, Citation citation) {
                     Row(
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           color: vermilion,
                           child: Text(
                             'CITATION [${citation.id}]',
-                            style: AppTheme.monospace(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
+                            style: AppTheme.monospace(
+                              color: Colors.white,
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 8),
                         Text(
                           'SIMILARITY: ${(citation.score * 100).toStringAsFixed(1)}%',
-                          style: AppTheme.monospace(color: vermilion, fontSize: 12, fontWeight: FontWeight.bold),
+                          style: AppTheme.monospace(
+                            color: vermilion,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),
@@ -89,7 +104,11 @@ void showEvidenceBottomSheet(BuildContext context, Citation citation) {
                 // Source Document
                 Text(
                   'SOURCE ARTIFACT',
-                  style: AppTheme.monospace(color: mutedText, fontSize: 11, fontWeight: FontWeight.bold),
+                  style: AppTheme.monospace(
+                    color: mutedText,
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -107,7 +126,10 @@ void showEvidenceBottomSheet(BuildContext context, Citation citation) {
                     ),
                     if (citation.page != null)
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 1,
+                        ),
                         decoration: BoxDecoration(
                           border: Border.all(color: vermilion, width: 1),
                         ),
@@ -127,11 +149,16 @@ void showEvidenceBottomSheet(BuildContext context, Citation citation) {
                 // Chunk Text Span
                 Text(
                   'GROUNDED PASSAGE SPAN',
-                  style: AppTheme.monospace(color: mutedText, fontSize: 11, fontWeight: FontWeight.bold),
+                  style: AppTheme.monospace(
+                    color: mutedText,
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 6),
                 BrutalistContainer(
-                  backgroundColor: isDark ? AppTheme.nocturneBg : AppTheme.parchmentBg,
+                  backgroundColor:
+                      isDark ? AppTheme.nocturneBg : AppTheme.parchmentBg,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -146,7 +173,10 @@ void showEvidenceBottomSheet(BuildContext context, Citation citation) {
                       const SizedBox(height: 10),
                       Text(
                         'CHUNK REF: ${citation.chunkId}',
-                        style: AppTheme.monospace(color: mutedText, fontSize: 11),
+                        style: AppTheme.monospace(
+                          color: mutedText,
+                          fontSize: 11,
+                        ),
                       ),
                     ],
                   ),
@@ -168,7 +198,11 @@ void showEvidenceBottomSheet(BuildContext context, Citation citation) {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.hub_outlined, color: Colors.white, size: 18),
+                      const Icon(
+                        Icons.hub_outlined,
+                        color: Colors.white,
+                        size: 18,
+                      ),
                       const SizedBox(width: 10),
                       Text(
                         'INSPECT CHUNK IN MATRIX',

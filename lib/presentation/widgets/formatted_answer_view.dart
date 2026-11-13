@@ -29,16 +29,23 @@ class FormattedAnswerView extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final textColor = isDark ? AppTheme.nocturneText : AppTheme.parchmentText;
-    final mutedText = isDark ? AppTheme.nocturneMutedText : AppTheme.parchmentMutedText;
-    final vermilion = isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
-    final borderColor = isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
+    final mutedText =
+        isDark ? AppTheme.nocturneMutedText : AppTheme.parchmentMutedText;
+    final vermilion =
+        isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
+    final borderColor =
+        isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
     final bgColor = isDark ? AppTheme.nocturneBg : AppTheme.parchmentBg;
 
     final blocks = _parseBlocks(text);
     if (blocks.isEmpty) {
       return Text(
         text,
-        style: AppTheme.readingSerif(color: textColor, fontSize: 15, height: 1.6),
+        style: AppTheme.readingSerif(
+          color: textColor,
+          fontSize: 15,
+          height: 1.6,
+        ),
       );
     }
 
@@ -47,9 +54,10 @@ class FormattedAnswerView extends StatelessWidget {
       if (i > 0) {
         final prev = blocks[i - 1];
         final curr = blocks[i];
-        final gap = (prev is _ListItemBlock && curr is _ListItemBlock)
-            ? 6.0
-            : (curr is _HeadingBlock ? 16.0 : 11.0);
+        final gap =
+            (prev is _ListItemBlock && curr is _ListItemBlock)
+                ? 6.0
+                : (curr is _HeadingBlock ? 16.0 : 11.0);
         children.add(SizedBox(height: gap));
       }
       children.add(
@@ -107,11 +115,7 @@ class FormattedAnswerView extends StatelessWidget {
             ),
             if (level <= 2) ...[
               const SizedBox(height: 4),
-              Container(
-                width: 36,
-                height: 2,
-                color: vermilion,
-              ),
+              Container(width: 36, height: 2, color: vermilion),
             ],
           ],
         );
@@ -126,23 +130,24 @@ class FormattedAnswerView extends StatelessWidget {
                 width: orderedIndex != null ? 24 : 16,
                 child: Padding(
                   padding: EdgeInsets.only(top: orderedIndex != null ? 3 : 8),
-                  child: orderedIndex != null
-                      ? Text(
-                          '$orderedIndex.',
-                          style: AppTheme.monospace(
-                            color: vermilion,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
+                  child:
+                      orderedIndex != null
+                          ? Text(
+                            '$orderedIndex.',
+                            style: AppTheme.monospace(
+                              color: vermilion,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                          : Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              width: 6,
+                              height: 6,
+                              color: vermilion,
+                            ),
                           ),
-                        )
-                      : Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            width: 6,
-                            height: 6,
-                            color: vermilion,
-                          ),
-                        ),
                 ),
               ),
               Expanded(
@@ -167,9 +172,7 @@ class FormattedAnswerView extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
           decoration: BoxDecoration(
             color: codeBg,
-            border: Border(
-              left: BorderSide(color: vermilion, width: 3),
-            ),
+            border: Border(left: BorderSide(color: vermilion, width: 3)),
           ),
           child: _buildInlineRichText(
             content,
@@ -190,7 +193,10 @@ class FormattedAnswerView extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: codeBg,
-            border: Border.all(color: borderColor.withValues(alpha: 0.35), width: 1.5),
+            border: Border.all(
+              color: borderColor.withValues(alpha: 0.35),
+              width: 1.5,
+            ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -266,9 +272,10 @@ class FormattedAnswerView extends StatelessWidget {
         );
       } else if (segment is CitationSegment) {
         final citation = _findCitation(segment.citationId);
-        final tooltip = citation == null
-            ? null
-            : '${citation.displayTitle}${citation.page != null ? ' • p.${citation.page}' : ''}';
+        final tooltip =
+            citation == null
+                ? null
+                : '${citation.displayTitle}${citation.page != null ? ' • p.${citation.page}' : ''}';
         spans.add(
           WidgetSpan(
             alignment: PlaceholderAlignment.middle,
@@ -311,11 +318,18 @@ class FormattedAnswerView extends StatelessWidget {
 
     for (final match in pattern.allMatches(input)) {
       if (match.start > cursor) {
-        spans.add(TextSpan(text: input.substring(cursor, match.start), style: baseStyle));
+        spans.add(
+          TextSpan(
+            text: input.substring(cursor, match.start),
+            style: baseStyle,
+          ),
+        );
       }
 
       if (match.group(1) != null) {
-        final codeText = match.group(1)!.substring(1, match.group(1)!.length - 1);
+        final codeText = match
+            .group(1)!
+            .substring(1, match.group(1)!.length - 1);
         spans.add(
           TextSpan(
             text: ' $codeText ',
@@ -332,7 +346,10 @@ class FormattedAnswerView extends StatelessWidget {
         spans.add(
           TextSpan(
             text: boldText,
-            style: baseStyle.copyWith(fontWeight: FontWeight.w700, color: textColor),
+            style: baseStyle.copyWith(
+              fontWeight: FontWeight.w700,
+              color: textColor,
+            ),
           ),
         );
       } else if (match.group(3) != null) {
@@ -450,7 +467,9 @@ class FormattedAnswerView extends StatelessWidget {
       if (bulletMatch != null) {
         flushParagraph();
         final indent = (bulletMatch.group(1)?.length ?? 0) ~/ 2;
-        blocks.add(_ListItemBlock(content: bulletMatch.group(2)!.trim(), indent: indent));
+        blocks.add(
+          _ListItemBlock(content: bulletMatch.group(2)!.trim(), indent: indent),
+        );
         i++;
         continue;
       }
@@ -494,7 +513,11 @@ class _ListItemBlock extends _MdBlock {
   final int? orderedIndex;
   final String content;
   final int indent;
-  const _ListItemBlock({this.orderedIndex, required this.content, this.indent = 0});
+  const _ListItemBlock({
+    this.orderedIndex,
+    required this.content,
+    this.indent = 0,
+  });
 }
 
 class _QuoteBlock extends _MdBlock {

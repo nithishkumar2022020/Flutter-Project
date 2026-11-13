@@ -34,10 +34,26 @@ class _ArchivalSplashScreenState extends State<ArchivalSplashScreen>
   static const String _fullSubtitle = 'NEURAL RETRIEVAL & ATTRIBUTION CANVAS';
 
   static const List<_BootStep> _bootSteps = [
-    _BootStep(threshold: 0.05, label: 'MOUNTING LATENT MANIFOLD (1536-D)...', code: 'VEC_INIT'),
-    _BootStep(threshold: 0.32, label: 'CALIBRATING HNSW GRAPH & BM25 INDICES...', code: 'HNSW_CALIB'),
-    _BootStep(threshold: 0.62, label: 'ESTABLISHING GROUNDED SSE PIPELINE...', code: 'SSE_LINK'),
-    _BootStep(threshold: 0.88, label: 'SYNQRA CORE ONLINE // CLEARANCE VERIFIED', code: 'SYS_READY'),
+    _BootStep(
+      threshold: 0.05,
+      label: 'MOUNTING LATENT MANIFOLD (1536-D)...',
+      code: 'VEC_INIT',
+    ),
+    _BootStep(
+      threshold: 0.32,
+      label: 'CALIBRATING HNSW GRAPH & BM25 INDICES...',
+      code: 'HNSW_CALIB',
+    ),
+    _BootStep(
+      threshold: 0.62,
+      label: 'ESTABLISHING GROUNDED SSE PIPELINE...',
+      code: 'SSE_LINK',
+    ),
+    _BootStep(
+      threshold: 0.88,
+      label: 'SYNQRA CORE ONLINE // CLEARANCE VERIFIED',
+      code: 'SYS_READY',
+    ),
   ];
 
   @override
@@ -82,7 +98,8 @@ class _ArchivalSplashScreenState extends State<ArchivalSplashScreen>
       return;
     }
 
-    final destination = widget.destinationOverride ??
+    final destination =
+        widget.destinationOverride ??
         (context.read<SettingsProvider>().isAuthenticated
             ? const RootShellScreen()
             : const ClearanceAuthScreen());
@@ -93,7 +110,10 @@ class _ArchivalSplashScreenState extends State<ArchivalSplashScreen>
         pageBuilder: (context, animation, secondaryAnimation) => destination,
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(
-            opacity: CurvedAnimation(parent: animation, curve: Curves.easeInOut),
+            opacity: CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeInOut,
+            ),
             child: child,
           );
         },
@@ -105,7 +125,10 @@ class _ArchivalSplashScreenState extends State<ArchivalSplashScreen>
     if (progress <= 0.02) return '';
     if (progress >= 0.40) return _fullTitle;
     final fraction = ((progress - 0.02) / 0.38).clamp(0.0, 1.0);
-    final count = (fraction * _fullTitle.length).ceil().clamp(0, _fullTitle.length);
+    final count = (fraction * _fullTitle.length).ceil().clamp(
+      0,
+      _fullTitle.length,
+    );
     return _fullTitle.substring(0, count);
   }
 
@@ -113,7 +136,10 @@ class _ArchivalSplashScreenState extends State<ArchivalSplashScreen>
     if (progress <= 0.38) return '';
     if (progress >= 0.82) return _fullSubtitle;
     final fraction = ((progress - 0.38) / 0.44).clamp(0.0, 1.0);
-    final count = (fraction * _fullSubtitle.length).ceil().clamp(0, _fullSubtitle.length);
+    final count = (fraction * _fullSubtitle.length).ceil().clamp(
+      0,
+      _fullSubtitle.length,
+    );
     return _fullSubtitle.substring(0, count);
   }
 
@@ -121,11 +147,15 @@ class _ArchivalSplashScreenState extends State<ArchivalSplashScreen>
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bgColor = isDark ? AppTheme.nocturneBg : AppTheme.parchmentBg;
-    final surfaceColor = isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
+    final surfaceColor =
+        isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
     final textColor = isDark ? AppTheme.nocturneText : AppTheme.parchmentText;
-    final mutedText = isDark ? AppTheme.nocturneMutedText : AppTheme.parchmentMutedText;
-    final vermilion = isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
-    final borderColor = isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
+    final mutedText =
+        isDark ? AppTheme.nocturneMutedText : AppTheme.parchmentMutedText;
+    final vermilion =
+        isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
+    final borderColor =
+        isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
 
     final progress = _progressController.value;
     final percent = (progress * 100).toInt().clamp(0, 100);
@@ -148,7 +178,9 @@ class _ArchivalSplashScreenState extends State<ArchivalSplashScreen>
               Positioned.fill(
                 child: CustomPaint(
                   painter: _TechGridPainter(
-                    gridColor: borderColor.withValues(alpha: isDark ? 0.05 : 0.07),
+                    gridColor: borderColor.withValues(
+                      alpha: isDark ? 0.05 : 0.07,
+                    ),
                   ),
                 ),
               ),
@@ -192,7 +224,10 @@ class _ArchivalSplashScreenState extends State<ArchivalSplashScreen>
                       children: [
                         // Top Meta Tag
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: vermilion.withValues(alpha: 0.12),
                             border: Border.all(color: vermilion, width: 1.5),
@@ -306,9 +341,7 @@ class _ArchivalSplashScreenState extends State<ArchivalSplashScreen>
             children: [
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
-                decoration: BoxDecoration(
-                  color: vermilion,
-                ),
+                decoration: BoxDecoration(color: vermilion),
                 child: Text(
                   'TERM://SYNQRA',
                   style: AppTheme.monospace(
@@ -324,7 +357,10 @@ class _ArchivalSplashScreenState extends State<ArchivalSplashScreen>
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
                   color: borderColor.withValues(alpha: 0.08),
-                  border: Border.all(color: borderColor.withValues(alpha: 0.3), width: 1),
+                  border: Border.all(
+                    color: borderColor.withValues(alpha: 0.3),
+                    width: 1,
+                  ),
                 ),
                 child: Text(
                   'SYS_PROMPT_INIT',
@@ -403,7 +439,10 @@ class _ArchivalSplashScreenState extends State<ArchivalSplashScreen>
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: AppTheme.monospace(
-                    color: isDark ? AppTheme.nocturneMutedText : AppTheme.parchmentText,
+                    color:
+                        isDark
+                            ? AppTheme.nocturneMutedText
+                            : AppTheme.parchmentText,
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 1.1,
@@ -534,11 +573,19 @@ class _ArchivalSplashScreenState extends State<ArchivalSplashScreen>
               return Expanded(
                 child: Container(
                   height: 10,
-                  margin: EdgeInsets.only(right: index == totalSegments - 1 ? 0 : 3),
+                  margin: EdgeInsets.only(
+                    right: index == totalSegments - 1 ? 0 : 3,
+                  ),
                   decoration: BoxDecoration(
-                    color: isFilled ? vermilion : borderColor.withValues(alpha: 0.12),
+                    color:
+                        isFilled
+                            ? vermilion
+                            : borderColor.withValues(alpha: 0.12),
                     border: Border.all(
-                      color: isFilled ? borderColor : borderColor.withValues(alpha: 0.3),
+                      color:
+                          isFilled
+                              ? borderColor
+                              : borderColor.withValues(alpha: 0.3),
                       width: 1,
                     ),
                   ),
@@ -577,7 +624,10 @@ class _ArchivalSplashScreenState extends State<ArchivalSplashScreen>
                   Text(
                     progress >= step.threshold ? '✓' : '›',
                     style: AppTheme.monospace(
-                      color: progress >= step.threshold ? vermilion : mutedText.withValues(alpha: 0.4),
+                      color:
+                          progress >= step.threshold
+                              ? vermilion
+                              : mutedText.withValues(alpha: 0.4),
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                     ),
@@ -588,16 +638,25 @@ class _ArchivalSplashScreenState extends State<ArchivalSplashScreen>
                       step.label,
                       overflow: TextOverflow.ellipsis,
                       style: AppTheme.monospace(
-                        color: progress >= step.threshold ? textColor : mutedText.withValues(alpha: 0.4),
+                        color:
+                            progress >= step.threshold
+                                ? textColor
+                                : mutedText.withValues(alpha: 0.4),
                         fontSize: 9.5,
-                        fontWeight: progress >= step.threshold ? FontWeight.w600 : FontWeight.w400,
+                        fontWeight:
+                            progress >= step.threshold
+                                ? FontWeight.w600
+                                : FontWeight.w400,
                       ),
                     ),
                   ),
                   Text(
                     step.code,
                     style: AppTheme.monospace(
-                      color: progress >= step.threshold ? vermilion : mutedText.withValues(alpha: 0.3),
+                      color:
+                          progress >= step.threshold
+                              ? vermilion
+                              : mutedText.withValues(alpha: 0.3),
                       fontSize: 8.5,
                       fontWeight: FontWeight.bold,
                     ),
@@ -631,9 +690,10 @@ class _TechGridPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = gridColor
-      ..strokeWidth = 0.8;
+    final paint =
+        Paint()
+          ..color = gridColor
+          ..strokeWidth = 0.8;
 
     const step = 28.0;
     for (double x = 0; x <= size.width; x += step) {

@@ -13,10 +13,14 @@ class UserProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final textColor = isDark ? AppTheme.nocturneText : AppTheme.parchmentText;
-    final mutedText = isDark ? AppTheme.nocturneMutedText : AppTheme.parchmentMutedText;
-    final vermilion = isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
-    final borderColor = isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
-    final surfaceColor = isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
+    final mutedText =
+        isDark ? AppTheme.nocturneMutedText : AppTheme.parchmentMutedText;
+    final vermilion =
+        isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
+    final borderColor =
+        isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
+    final surfaceColor =
+        isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
 
     return Consumer<SettingsProvider>(
       builder: (context, settingsProv, _) {
@@ -27,15 +31,22 @@ class UserProfileScreen extends StatelessWidget {
 
         // Extract initials
         final nameParts = name.trim().split(RegExp(r'\s+'));
-        final initials = nameParts.length > 1
-            ? '${nameParts[0][0]}${nameParts[1][0]}'.toUpperCase()
-            : (name.isNotEmpty ? name.substring(0, name.length >= 2 ? 2 : 1).toUpperCase() : 'NR');
+        final initials =
+            nameParts.length > 1
+                ? '${nameParts[0][0]}${nameParts[1][0]}'.toUpperCase()
+                : (name.isNotEmpty
+                    ? name.substring(0, name.length >= 2 ? 2 : 1).toUpperCase()
+                    : 'NR');
 
         return Scaffold(
           appBar: AppBar(
             title: Text(
               'FIELD DOSSIER // OPERATOR PROFILE',
-              style: AppTheme.monospace(color: textColor, fontSize: 13, fontWeight: FontWeight.bold),
+              style: AppTheme.monospace(
+                color: textColor,
+                fontSize: 13,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(2),
@@ -63,7 +74,11 @@ class UserProfileScreen extends StatelessWidget {
                               color: vermilion,
                               border: Border.all(color: borderColor, width: 2),
                               boxShadow: [
-                                BoxShadow(color: borderColor, offset: const Offset(3, 3), blurRadius: 0),
+                                BoxShadow(
+                                  color: borderColor,
+                                  offset: const Offset(3, 3),
+                                  blurRadius: 0,
+                                ),
                               ],
                             ),
                             alignment: Alignment.center,
@@ -83,27 +98,47 @@ class UserProfileScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   name.toUpperCase(),
-                                  style: AppTheme.slabHeader(color: textColor, fontSize: 18),
+                                  style: AppTheme.slabHeader(
+                                    color: textColor,
+                                    fontSize: 18,
+                                  ),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
                                   'CALL SIGN: $callSign',
-                                  style: AppTheme.monospace(color: mutedText, fontSize: 11),
+                                  style: AppTheme.monospace(
+                                    color: mutedText,
+                                    fontSize: 11,
+                                  ),
                                 ),
                                 const SizedBox(height: 6),
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 3,
+                                  ),
                                   decoration: BoxDecoration(
-                                    color: (isDark ? AppTheme.nocturneAmber : AppTheme.parchmentAmber).withValues(alpha: 0.2),
+                                    color: (isDark
+                                            ? AppTheme.nocturneAmber
+                                            : AppTheme.parchmentAmber)
+                                        .withValues(alpha: 0.2),
                                     border: Border.all(
-                                      color: isDark ? AppTheme.nocturneAmber : AppTheme.parchmentAmber,
+                                      color:
+                                          isDark
+                                              ? AppTheme.nocturneAmber
+                                              : AppTheme.parchmentAmber,
                                       width: 1.5,
                                     ),
                                   ),
                                   child: Text(
-                                    isGuest ? 'LEVEL-1 OBSERVER (GUEST)' : clearance,
+                                    isGuest
+                                        ? 'LEVEL-1 OBSERVER (GUEST)'
+                                        : clearance,
                                     style: AppTheme.monospace(
-                                      color: isDark ? AppTheme.nocturneAmber : AppTheme.parchmentAmber,
+                                      color:
+                                          isDark
+                                              ? AppTheme.nocturneAmber
+                                              : AppTheme.parchmentAmber,
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -122,7 +157,11 @@ class UserProfileScreen extends StatelessWidget {
                 // Vector Quota Meter
                 Text(
                   'VECTOR RETRIEVAL QUOTA METER',
-                  style: AppTheme.monospace(color: mutedText, fontSize: 11, fontWeight: FontWeight.bold),
+                  style: AppTheme.monospace(
+                    color: mutedText,
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 6),
                 BrutalistContainer(
@@ -132,8 +171,22 @@ class UserProfileScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('14,208 / 50,000 Chunks', style: AppTheme.monospace(color: textColor, fontSize: 12, fontWeight: FontWeight.bold)),
-                          Text('28.4% CONSUMED', style: AppTheme.monospace(color: vermilion, fontSize: 11, fontWeight: FontWeight.bold)),
+                          Text(
+                            '14,208 / 50,000 Chunks',
+                            style: AppTheme.monospace(
+                              color: textColor,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '28.4% CONSUMED',
+                            style: AppTheme.monospace(
+                              color: vermilion,
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 10),
@@ -142,14 +195,18 @@ class UserProfileScreen extends StatelessWidget {
                         child: LinearProgressIndicator(
                           value: 0.284,
                           minHeight: 12,
-                          backgroundColor: isDark ? Colors.white12 : Colors.black12,
+                          backgroundColor:
+                              isDark ? Colors.white12 : Colors.black12,
                           color: vermilion,
                         ),
                       ),
                       const SizedBox(height: 10),
                       Text(
                         'Monthly neural embedding and HNSW candidate limit resets in 19 days.',
-                        style: AppTheme.readingSerif(color: mutedText, fontSize: 12),
+                        style: AppTheme.readingSerif(
+                          color: mutedText,
+                          fontSize: 12,
+                        ),
                       ),
                     ],
                   ),
@@ -159,7 +216,11 @@ class UserProfileScreen extends StatelessWidget {
                 // Active Session Ledger
                 Text(
                   'ACTIVE SESSION LEDGER',
-                  style: AppTheme.monospace(color: mutedText, fontSize: 11, fontWeight: FontWeight.bold),
+                  style: AppTheme.monospace(
+                    color: mutedText,
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 6),
                 BrutalistContainer(
@@ -172,7 +233,10 @@ class UserProfileScreen extends StatelessWidget {
                         mutedText: mutedText,
                         vermilion: vermilion,
                       ),
-                      Divider(color: borderColor.withValues(alpha: 0.3), height: 18),
+                      Divider(
+                        color: borderColor.withValues(alpha: 0.3),
+                        height: 18,
+                      ),
                       _buildLedgerRow(
                         title: 'DENSE EMBEDDING MODEL',
                         value: 'text-embedding-3-large (1536-D)',
@@ -180,7 +244,10 @@ class UserProfileScreen extends StatelessWidget {
                         mutedText: mutedText,
                         vermilion: vermilion,
                       ),
-                      Divider(color: borderColor.withValues(alpha: 0.3), height: 18),
+                      Divider(
+                        color: borderColor.withValues(alpha: 0.3),
+                        height: 18,
+                      ),
                       _buildLedgerRow(
                         title: 'SPARSE RETRIEVER',
                         value: 'BM25 + Token Frequency Hash',
@@ -188,7 +255,10 @@ class UserProfileScreen extends StatelessWidget {
                         mutedText: mutedText,
                         vermilion: vermilion,
                       ),
-                      Divider(color: borderColor.withValues(alpha: 0.3), height: 18),
+                      Divider(
+                        color: borderColor.withValues(alpha: 0.3),
+                        height: 18,
+                      ),
                       _buildLedgerRow(
                         title: 'CROSS-ENCODER RERANKER',
                         value: 'bge-reranker-v2-m3 (GPU Accelerated)',
@@ -209,7 +279,10 @@ class UserProfileScreen extends StatelessWidget {
                       SnackBar(
                         content: Text(
                           'Exported signed cryptographic audit log (SHA-256: 9e4f..8b2).',
-                          style: AppTheme.monospace(color: Colors.white, fontSize: 12),
+                          style: AppTheme.monospace(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
                         ),
                         backgroundColor: vermilion,
                       ),
@@ -220,11 +293,19 @@ class UserProfileScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.download_for_offline_outlined, color: textColor, size: 18),
+                        Icon(
+                          Icons.download_for_offline_outlined,
+                          color: textColor,
+                          size: 18,
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           'EXPORT AUDIT LOG',
-                          style: AppTheme.monospace(color: textColor, fontSize: 12, fontWeight: FontWeight.bold),
+                          style: AppTheme.monospace(
+                            color: textColor,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),
@@ -254,7 +335,11 @@ class UserProfileScreen extends StatelessWidget {
                         const SizedBox(width: 8),
                         Text(
                           'REVOKE SESSION / SIGN OUT',
-                          style: AppTheme.monospace(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                          style: AppTheme.monospace(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),
@@ -280,16 +365,17 @@ class UserProfileScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          title,
-          style: AppTheme.monospace(color: mutedText, fontSize: 10),
-        ),
+        Text(title, style: AppTheme.monospace(color: mutedText, fontSize: 10)),
         const SizedBox(width: 8),
         Expanded(
           child: Text(
             value,
             textAlign: TextAlign.end,
-            style: AppTheme.monospace(color: textColor, fontSize: 11, fontWeight: FontWeight.bold),
+            style: AppTheme.monospace(
+              color: textColor,
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ],

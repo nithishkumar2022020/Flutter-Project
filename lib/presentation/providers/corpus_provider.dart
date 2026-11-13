@@ -11,15 +11,17 @@ class CorpusProvider extends ChangeNotifier {
   String? _error;
 
   CorpusProvider({required ICorpusRepository repository})
-      : _repository = repository {
+    : _repository = repository {
     loadManifest();
   }
 
   List<DocumentEntry> get documents => List.unmodifiable(_documents);
   Set<String> get selectedDocumentIds => Set.unmodifiable(_selectedDocumentIds);
-  List<DocumentEntry> get selectedDocuments =>
-      _documents.where((d) => _selectedDocumentIds.contains(d.id)).toList(growable: false);
-  bool isSelected(String documentId) => _selectedDocumentIds.contains(documentId);
+  List<DocumentEntry> get selectedDocuments => _documents
+      .where((d) => _selectedDocumentIds.contains(d.id))
+      .toList(growable: false);
+  bool isSelected(String documentId) =>
+      _selectedDocumentIds.contains(documentId);
   bool get hasSelection => _selectedDocumentIds.isNotEmpty;
   bool get isLoading => _isLoading;
   bool get isUploading => _isUploading;
@@ -35,9 +37,10 @@ class CorpusProvider extends ChangeNotifier {
   }
 
   void setSelected(String documentId, bool selected) {
-    final changed = selected
-        ? _selectedDocumentIds.add(documentId)
-        : _selectedDocumentIds.remove(documentId);
+    final changed =
+        selected
+            ? _selectedDocumentIds.add(documentId)
+            : _selectedDocumentIds.remove(documentId);
     if (changed) notifyListeners();
   }
 
@@ -48,8 +51,14 @@ class CorpusProvider extends ChangeNotifier {
     bool selectRange = true,
   }) {
     if (_documents.isEmpty) return;
-    final start = (anchorIndex < targetIndex ? anchorIndex : targetIndex).clamp(0, _documents.length - 1);
-    final end = (anchorIndex > targetIndex ? anchorIndex : targetIndex).clamp(0, _documents.length - 1);
+    final start = (anchorIndex < targetIndex ? anchorIndex : targetIndex).clamp(
+      0,
+      _documents.length - 1,
+    );
+    final end = (anchorIndex > targetIndex ? anchorIndex : targetIndex).clamp(
+      0,
+      _documents.length - 1,
+    );
 
     final next = <String>{...baseSelection};
     for (var i = start; i <= end; i++) {
@@ -61,7 +70,8 @@ class CorpusProvider extends ChangeNotifier {
       }
     }
 
-    if (next.length == _selectedDocumentIds.length && next.containsAll(_selectedDocumentIds)) {
+    if (next.length == _selectedDocumentIds.length &&
+        next.containsAll(_selectedDocumentIds)) {
       return;
     }
     _selectedDocumentIds
@@ -72,7 +82,8 @@ class CorpusProvider extends ChangeNotifier {
 
   void selectAll() {
     final allIds = _documents.map((d) => d.id).toSet();
-    if (_selectedDocumentIds.length == allIds.length && _selectedDocumentIds.containsAll(allIds)) {
+    if (_selectedDocumentIds.length == allIds.length &&
+        _selectedDocumentIds.containsAll(allIds)) {
       return;
     }
     _selectedDocumentIds

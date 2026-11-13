@@ -8,7 +8,7 @@ class TelemetryProvider extends ChangeNotifier {
   bool _isLoading = false;
 
   TelemetryProvider({required ITelemetryRepository repository})
-      : _repository = repository {
+    : _repository = repository {
     fetchLatestTelemetry();
   }
 

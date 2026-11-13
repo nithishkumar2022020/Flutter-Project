@@ -23,7 +23,10 @@ class AppTheme {
   static const Color nocturneSage = Color(0xFF689B77);
 
   // Neo-Brutalist Box Shadow specification
-  static List<BoxShadow> brutalistShadow(Color shadowColor, {Offset offset = const Offset(4, 4)}) {
+  static List<BoxShadow> brutalistShadow(
+    Color shadowColor, {
+    Offset offset = const Offset(4, 4),
+  }) {
     return [
       BoxShadow(
         color: shadowColor,

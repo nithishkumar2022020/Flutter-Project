@@ -15,31 +15,34 @@ void main() {
       provider.dispose();
     });
 
-    test('submitQuery streams tokens and parses citation badges in real time', () async {
-      expect(provider.isStreaming, false);
-      expect(provider.streamedAnswer, isEmpty);
+    test(
+      'submitQuery streams tokens and parses citation badges in real time',
+      () async {
+        expect(provider.isStreaming, false);
+        expect(provider.streamedAnswer, isEmpty);
 
-      provider.submitQuery('What is RAG?');
+        provider.submitQuery('What is RAG?');
 
-      expect(provider.isStreaming, true);
-      expect(provider.currentQuery, 'What is RAG?');
+        expect(provider.isStreaming, true);
+        expect(provider.currentQuery, 'What is RAG?');
 
-      // Wait for stream events to accumulate
-      await Future.delayed(const Duration(milliseconds: 700));
+        // Wait for stream events to accumulate
+        await Future.delayed(const Duration(milliseconds: 700));
 
-      expect(provider.streamedAnswer.isNotEmpty, true);
-      expect(provider.citations.isNotEmpty, true);
-      expect(provider.parsedSegments.any((s) => s is CitationSegment), true);
+        expect(provider.streamedAnswer.isNotEmpty, true);
+        expect(provider.citations.isNotEmpty, true);
+        expect(provider.parsedSegments.any((s) => s is CitationSegment), true);
 
-      final citation1 = provider.getCitationById(1);
-      expect(citation1, isNotNull);
-      expect(citation1!.score, greaterThan(0.8));
+        final citation1 = provider.getCitationById(1);
+        expect(citation1, isNotNull);
+        expect(citation1!.score, greaterThan(0.8));
 
-      // Wait for completion
-      await Future.delayed(const Duration(milliseconds: 600));
-      expect(provider.isComplete, true);
-      expect(provider.isStreaming, false);
-    });
+        // Wait for completion
+        await Future.delayed(const Duration(milliseconds: 600));
+        expect(provider.isComplete, true);
+        expect(provider.isStreaming, false);
+      },
+    );
 
     test('cancelActiveStream stops generation immediately', () async {
       provider.submitQuery('Test query');

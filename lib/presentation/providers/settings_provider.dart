@@ -8,7 +8,7 @@ class SettingsProvider extends ChangeNotifier {
   bool _isLoaded = false;
 
   SettingsProvider({required IProfileSettingsRepository repository})
-      : _repository = repository {
+    : _repository = repository {
     _load();
   }
 
@@ -34,7 +34,9 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   Future<void> toggleNocturneMode() async {
-    final updated = _settings.copyWith(isNocturneMode: !_settings.isNocturneMode);
+    final updated = _settings.copyWith(
+      isNocturneMode: !_settings.isNocturneMode,
+    );
     await updateSettings(updated);
   }
 
@@ -46,7 +48,10 @@ class SettingsProvider extends ChangeNotifier {
       isAuthenticated: true,
       isGuest: false,
       callSign: callSign.isNotEmpty ? callSign : 'ARCH-9942',
-      researcherName: _settings.researcherName.isNotEmpty ? _settings.researcherName : 'Nithish R.',
+      researcherName:
+          _settings.researcherName.isNotEmpty
+              ? _settings.researcherName
+              : 'Nithish R.',
     );
     await updateSettings(updated);
   }
@@ -62,7 +67,8 @@ class SettingsProvider extends ChangeNotifier {
       isGuest: false,
       researcherName: researcherName.isNotEmpty ? researcherName : 'Nithish R.',
       callSign: callSign.isNotEmpty ? callSign : 'ARCH-9942',
-      clearanceLevel: clearanceLevel.isNotEmpty ? clearanceLevel : 'Level-3 Architect',
+      clearanceLevel:
+          clearanceLevel.isNotEmpty ? clearanceLevel : 'Level-3 Architect',
     );
     await updateSettings(updated);
   }
@@ -79,10 +85,7 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   Future<void> signOut() async {
-    final updated = _settings.copyWith(
-      isAuthenticated: false,
-      isGuest: false,
-    );
+    final updated = _settings.copyWith(isAuthenticated: false, isGuest: false);
     await updateSettings(updated);
   }
 }

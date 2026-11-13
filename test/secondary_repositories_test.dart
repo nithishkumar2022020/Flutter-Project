@@ -18,44 +18,53 @@ void main() {
       expect(data.rerankerModel.isNotEmpty, true);
     });
 
-    test('MockCorpusRepository loads manifest and simulates upload cleanly', () async {
-      final repo = MockCorpusRepository();
-      final manifest = await repo.getCorpusManifest();
+    test(
+      'MockCorpusRepository loads manifest and simulates upload cleanly',
+      () async {
+        final repo = MockCorpusRepository();
+        final manifest = await repo.getCorpusManifest();
 
-      expect(manifest.isNotEmpty, true);
-      expect(manifest.first.title.isNotEmpty, true);
-      expect(manifest.first.status, IngestionStatus.indexed);
+        expect(manifest.isNotEmpty, true);
+        expect(manifest.first.title.isNotEmpty, true);
+        expect(manifest.first.status, IngestionStatus.indexed);
 
-      final uploaded = await repo.simulateUpload(
-        filename: 'new_evidence_corpus.pdf',
-        byteLength: 500000,
-      );
-      expect(uploaded.filename, 'new_evidence_corpus.pdf');
-      expect(uploaded.chunkCount, greaterThan(0));
+        final uploaded = await repo.simulateUpload(
+          filename: 'new_evidence_corpus.pdf',
+          byteLength: 500000,
+        );
+        expect(uploaded.filename, 'new_evidence_corpus.pdf');
+        expect(uploaded.chunkCount, greaterThan(0));
 
-      final updatedManifest = await repo.getCorpusManifest();
-      expect(updatedManifest.any((d) => d.id == uploaded.id), true);
-    });
+        final updatedManifest = await repo.getCorpusManifest();
+        expect(updatedManifest.any((d) => d.id == uploaded.id), true);
+      },
+    );
 
-    test('MockVectorInspectorRepository returns 1536-D embedding stats and BM25 weights', () async {
-      final repo = MockVectorInspectorRepository();
-      final data = await repo.getChunkInspection('chk_test_123');
+    test(
+      'MockVectorInspectorRepository returns 1536-D embedding stats and BM25 weights',
+      () async {
+        final repo = MockVectorInspectorRepository();
+        final data = await repo.getChunkInspection('chk_test_123');
 
-      expect(data.chunkId, 'chk_test_123');
-      expect(data.dimension, 1536);
-      expect(data.previewEmbedding.length, 64);
-      expect(data.bm25TokenWeights.isNotEmpty, true);
-      expect(data.rawChunkText.isNotEmpty, true);
-    });
+        expect(data.chunkId, 'chk_test_123');
+        expect(data.dimension, 1536);
+        expect(data.previewEmbedding.length, 64);
+        expect(data.bm25TokenWeights.isNotEmpty, true);
+        expect(data.rawChunkText.isNotEmpty, true);
+      },
+    );
 
-    test('MockGraphRepository returns static node and edge sets cleanly', () async {
-      final repo = MockGraphRepository();
-      final graph = await repo.getKnowledgeGraph();
+    test(
+      'MockGraphRepository returns static node and edge sets cleanly',
+      () async {
+        final repo = MockGraphRepository();
+        final graph = await repo.getKnowledgeGraph();
 
-      expect(graph.nodes.isNotEmpty, true);
-      expect(graph.edges.isNotEmpty, true);
-      expect(graph.nodes.any((n) => n.category == 'Concept'), true);
-      expect(graph.edges.any((e) => e.relation == 'routes_to'), true);
-    });
+        expect(graph.nodes.isNotEmpty, true);
+        expect(graph.edges.isNotEmpty, true);
+        expect(graph.nodes.any((n) => n.category == 'Concept'), true);
+        expect(graph.edges.any((e) => e.relation == 'routes_to'), true);
+      },
+    );
   });
 }

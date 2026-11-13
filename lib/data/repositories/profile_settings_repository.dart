@@ -31,16 +31,23 @@ class ProfileSettingsRepository implements IProfileSettingsRepository {
       return ProfileSettings(
         apiKey: prefs.getString(_kApiKey) ?? defaults.apiKey,
         sseEndpoint: endpoint,
-        isNocturneMode: prefs.getBool(_kNocturneMode) ?? defaults.isNocturneMode,
+        isNocturneMode:
+            prefs.getBool(_kNocturneMode) ?? defaults.isNocturneMode,
         enableDenseOnly: prefs.getBool(_kDenseOnly) ?? defaults.enableDenseOnly,
-        similarityThreshold: prefs.getDouble(_kSimilarityThreshold) ?? defaults.similarityThreshold,
+        similarityThreshold:
+            prefs.getDouble(_kSimilarityThreshold) ??
+            defaults.similarityThreshold,
         topK: prefs.getInt(_kTopK) ?? defaults.topK,
-        isAuthenticated: prefs.getBool(_kIsAuthenticated) ?? defaults.isAuthenticated,
-        researcherName: prefs.getString(_kResearcherName) ?? defaults.researcherName,
+        isAuthenticated:
+            prefs.getBool(_kIsAuthenticated) ?? defaults.isAuthenticated,
+        researcherName:
+            prefs.getString(_kResearcherName) ?? defaults.researcherName,
         callSign: prefs.getString(_kCallSign) ?? defaults.callSign,
-        clearanceLevel: prefs.getString(_kClearanceLevel) ?? defaults.clearanceLevel,
+        clearanceLevel:
+            prefs.getString(_kClearanceLevel) ?? defaults.clearanceLevel,
         isGuest: prefs.getBool(_kIsGuest) ?? defaults.isGuest,
-        useOfflineSimulation: prefs.getBool(_kUseOfflineSim) ?? defaults.useOfflineSimulation,
+        useOfflineSimulation:
+            prefs.getBool(_kUseOfflineSim) ?? defaults.useOfflineSimulation,
       );
     } catch (_) {
       return ProfileSettings.defaults();
@@ -55,7 +62,10 @@ class ProfileSettingsRepository implements IProfileSettingsRepository {
       await prefs.setString(_kSseEndpoint, settings.sseEndpoint);
       await prefs.setBool(_kNocturneMode, settings.isNocturneMode);
       await prefs.setBool(_kDenseOnly, settings.enableDenseOnly);
-      await prefs.setDouble(_kSimilarityThreshold, settings.similarityThreshold);
+      await prefs.setDouble(
+        _kSimilarityThreshold,
+        settings.similarityThreshold,
+      );
       await prefs.setInt(_kTopK, settings.topK);
       await prefs.setBool(_kIsAuthenticated, settings.isAuthenticated);
       await prefs.setString(_kResearcherName, settings.researcherName);

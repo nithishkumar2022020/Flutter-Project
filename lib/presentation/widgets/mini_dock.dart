@@ -14,13 +14,20 @@ class MiniDock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor = isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
+    final bgColor =
+        isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
     final textColor = isDark ? AppTheme.nocturneText : AppTheme.parchmentText;
-    final borderColor = isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
-    final vermilion = isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
+    final borderColor =
+        isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
+    final vermilion =
+        isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
 
     final tabs = const [
-      (key: 'minidock_corpus', label: 'CORPUS', icon: Icons.folder_open_outlined),
+      (
+        key: 'minidock_corpus',
+        label: 'CORPUS',
+        icon: Icons.folder_open_outlined,
+      ),
       (key: 'minidock_query', label: 'QUERY', icon: Icons.bolt_outlined),
       (key: 'minidock_matrix', label: 'MATRIX', icon: Icons.grid_4x4_outlined),
       (key: 'minidock_diag', label: 'DIAG', icon: Icons.insights_outlined),
@@ -48,10 +55,16 @@ class MiniDock extends StatelessWidget {
               behavior: HitTestBehavior.opaque,
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 180),
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 8,
+                ),
                 decoration: BoxDecoration(
                   color: isSelected ? vermilion : Colors.transparent,
-                  border: isSelected ? Border.all(color: borderColor, width: 1.5) : null,
+                  border:
+                      isSelected
+                          ? Border.all(color: borderColor, width: 1.5)
+                          : null,
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,

@@ -25,7 +25,7 @@ class RagSessionProvider extends ChangeNotifier {
   Duration? _lastDuration;
 
   RagSessionProvider({required IRagStreamRepository repository})
-      : _repository = repository;
+    : _repository = repository;
 
   String get currentQuery => _currentQuery;
   String get streamedAnswer => _streamedAnswer;
@@ -90,17 +90,19 @@ class RagSessionProvider extends ChangeNotifier {
       RagProcessStep(
         id: 'prepare',
         title: 'Initializing query pipeline',
-        detail: settings?.useOfflineSimulation == true
-            ? 'Preparing local offline simulation ($scopeSummary)'
-            : 'Target: ${settings?.sseEndpoint ?? 'http://localhost:8000/questions/stream'} · $scopeSummary',
+        detail:
+            settings?.useOfflineSimulation == true
+                ? 'Preparing local offline simulation ($scopeSummary)'
+                : 'Target: ${settings?.sseEndpoint ?? 'http://localhost:8000/questions/stream'} · $scopeSummary',
         state: ProcessStepState.active,
       ),
     ];
     _errorMessage = null;
     _statusStage = 'Initializing query pipeline';
-    _statusDetail = settings?.useOfflineSimulation == true
-        ? 'Preparing local offline simulation...'
-        : 'Connecting to ${settings?.sseEndpoint ?? 'backend'}...';
+    _statusDetail =
+        settings?.useOfflineSimulation == true
+            ? 'Preparing local offline simulation...'
+            : 'Connecting to ${settings?.sseEndpoint ?? 'backend'}...';
     _isStreaming = true;
     _isComplete = false;
     notifyListeners();
@@ -125,7 +127,10 @@ class RagSessionProvider extends ChangeNotifier {
             _statusStage = null;
             _statusDetail = null;
             _errorMessage = 'Stream error: $err';
-            _markActiveSteps(ProcessStepState.failed, detailOverride: _errorMessage);
+            _markActiveSteps(
+              ProcessStepState.failed,
+              detailOverride: _errorMessage,
+            );
             _finishTiming();
             notifyListeners();
           },
@@ -153,19 +158,24 @@ class RagSessionProvider extends ChangeNotifier {
     _lastDuration ??= _elapsedSinceStart();
   }
 
-  void _markActiveSteps(ProcessStepState targetState, {String? detailOverride}) {
+  void _markActiveSteps(
+    ProcessStepState targetState, {
+    String? detailOverride,
+  }) {
     final elapsed = _elapsedSinceStart();
-    _processSteps = _processSteps
-        .map(
-          (step) => step.state == ProcessStepState.active
-              ? step.copyWith(
-                  state: targetState,
-                  detail: detailOverride ?? step.detail,
-                  elapsed: elapsed,
-                )
-              : step,
-        )
-        .toList();
+    _processSteps =
+        _processSteps
+            .map(
+              (step) =>
+                  step.state == ProcessStepState.active
+                      ? step.copyWith(
+                        state: targetState,
+                        detail: detailOverride ?? step.detail,
+                        elapsed: elapsed,
+                      )
+                      : step,
+            )
+            .toList();
   }
 
   void _upsertProcessStep({
@@ -190,7 +200,9 @@ class RagSessionProvider extends ChangeNotifier {
           ),
         );
       } else if (step.state == ProcessStepState.active) {
-        updated.add(step.copyWith(state: ProcessStepState.completed, elapsed: elapsed));
+        updated.add(
+          step.copyWith(state: ProcessStepState.completed, elapsed: elapsed),
+        );
       } else {
         updated.add(step);
       }
@@ -217,18 +229,21 @@ class RagSessionProvider extends ChangeNotifier {
         _currentQuery = q;
         notifyListeners();
       case StreamStatusEvent(
-          stage: final stage,
-          detail: final detail,
-          stepId: final stepId,
-          isCompleted: final isCompleted,
-        ):
+        stage: final stage,
+        detail: final detail,
+        stepId: final stepId,
+        isCompleted: final isCompleted,
+      ):
         _statusStage = stage;
         _statusDetail = detail;
         _upsertProcessStep(
           id: stepId ?? stage.toLowerCase().replaceAll(' ', '_'),
           title: stage,
           detail: detail,
-          state: isCompleted ? ProcessStepState.completed : ProcessStepState.active,
+          state:
+              isCompleted
+                  ? ProcessStepState.completed
+                  : ProcessStepState.active,
         );
         notifyListeners();
       case AnswerChunkEvent(chunk: final delta):
@@ -252,10 +267,12 @@ class RagSessionProvider extends ChangeNotifier {
         _statusDetail = 'Formatting grounded response...';
         _upsertProcessStep(
           id: 'citations',
-          title: 'Matched ${list.length} source citation${list.length == 1 ? '' : 's'}',
-          detail: list.isEmpty
-              ? 'No matching source spans returned'
-              : list.map((c) => c.displayTitle).take(3).join(' · '),
+          title:
+              'Matched ${list.length} source citation${list.length == 1 ? '' : 's'}',
+          detail:
+              list.isEmpty
+                  ? 'No matching source spans returned'
+                  : list.map((c) => c.displayTitle).take(3).join(' · '),
           state: ProcessStepState.completed,
         );
         // Re-parse segments so any citation badges correlate with the citations list
@@ -289,7 +306,10 @@ class RagSessionProvider extends ChangeNotifier {
       _isStreaming = false;
       _statusStage = null;
       _statusDetail = null;
-      _markActiveSteps(ProcessStepState.failed, detailOverride: 'Stopped by user');
+      _markActiveSteps(
+        ProcessStepState.failed,
+        detailOverride: 'Stopped by user',
+      );
       _finishTiming();
       notifyListeners();
     }

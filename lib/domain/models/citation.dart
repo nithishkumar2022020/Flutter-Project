@@ -39,39 +39,50 @@ class Citation {
       '',
     );
     name = name.replaceFirst(RegExp(r'\.[a-zA-Z0-9]{2,5}$'), '');
-    name = name.replaceAll(RegExp(r'[_-]+'), ' ').replaceAll(RegExp(r'\s+'), ' ').trim();
+    name =
+        name
+            .replaceAll(RegExp(r'[_-]+'), ' ')
+            .replaceAll(RegExp(r'\s+'), ' ')
+            .trim();
     return name.isEmpty ? cleanFilename : name;
   }
 
   factory Citation.fromJson(Map<String, dynamic> json, {int fallbackId = 1}) {
-    final docId = json['document_id']?.toString() ?? json['documentId']?.toString();
-    final filename = json['filename']?.toString() ??
+    final docId =
+        json['document_id']?.toString() ?? json['documentId']?.toString();
+    final filename =
+        json['filename']?.toString() ??
         json['sourceDoc']?.toString() ??
         json['source_doc']?.toString() ??
         'Document';
 
     final rawPage = json['page'];
-    final parsedPage = rawPage is int ? rawPage : int.tryParse(rawPage?.toString() ?? '');
+    final parsedPage =
+        rawPage is int ? rawPage : int.tryParse(rawPage?.toString() ?? '');
     final pageSuffix = parsedPage != null ? ' (p.$parsedPage)' : '';
 
-    final resolvedChunkId = json['chunkId']?.toString() ??
+    final resolvedChunkId =
+        json['chunkId']?.toString() ??
         json['chunk_id']?.toString() ??
         (docId != null && docId.isNotEmpty
             ? '${docId}_p${parsedPage ?? fallbackId}'
             : 'chk_$fallbackId');
 
-    final resolvedSpan = json['textSpan']?.toString() ??
+    final resolvedSpan =
+        json['textSpan']?.toString() ??
         json['text_span']?.toString() ??
         json['excerpt']?.toString() ??
         'Cited from $filename${parsedPage != null ? ' — Page $parsedPage' : ''}.';
 
-    final resolvedId = json['id'] is int
-        ? json['id'] as int
-        : int.tryParse(json['id']?.toString() ?? '') ?? fallbackId;
+    final resolvedId =
+        json['id'] is int
+            ? json['id'] as int
+            : int.tryParse(json['id']?.toString() ?? '') ?? fallbackId;
 
-    final resolvedScore = (json['score'] is num)
-        ? (json['score'] as num).toDouble()
-        : double.tryParse(json['score']?.toString() ?? '') ?? 1.0;
+    final resolvedScore =
+        (json['score'] is num)
+            ? (json['score'] as num).toDouble()
+            : double.tryParse(json['score']?.toString() ?? '') ?? 1.0;
 
     return Citation(
       id: resolvedId,
@@ -85,14 +96,14 @@ class Citation {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'chunkId': chunkId,
-        'textSpan': textSpan,
-        'sourceDoc': sourceDoc,
-        'score': score,
-        if (documentId != null) 'document_id': documentId,
-        if (page != null) 'page': page,
-      };
+    'id': id,
+    'chunkId': chunkId,
+    'textSpan': textSpan,
+    'sourceDoc': sourceDoc,
+    'score': score,
+    if (documentId != null) 'document_id': documentId,
+    if (page != null) 'page': page,
+  };
 
   @override
   bool operator ==(Object other) =>

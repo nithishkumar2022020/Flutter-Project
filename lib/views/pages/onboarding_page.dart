@@ -7,15 +7,11 @@ import 'package:my_flutter_proj_dq/views/pages/welcome_page.dart';
 
 TextEditingController controllerEmail = TextEditingController(text: '123');
 TextEditingController controllerPassword = TextEditingController(text: '456');
-String email='123';
-String password='123';
+String email = '123';
+String password = '123';
+
 class Onboarding_Page extends StatelessWidget {
-  const Onboarding_Page({
-    super.key,
-    
-  });
-
-
+  const Onboarding_Page({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,32 +39,30 @@ class Onboarding_Page extends StatelessWidget {
             child: Column(
               children: [
                 Lottie.asset('assets/lotties/bus_travel.json'),
-                
+
                 SizedBox(height: 120),
-                  
-                  SizedBox(height: 60),
-                  Text('Welcome to the app, lets get started with the onboarding process!'),
-                  SizedBox(height: 10),
-                    FilledButton(onPressed: () {
-                      Navigator.pushReplacement(
+
+                SizedBox(height: 60),
+                Text(
+                  'Welcome to the app, lets get started with the onboarding process!',
+                ),
+                SizedBox(height: 10),
+                FilledButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return Register_Page(
-                            title: 'Register',
-                          );
+                          return Register_Page(title: 'Register');
                         },
                       ),
-            
                     );
-                    }, 
-                    style: FilledButton.styleFrom(
-                      minimumSize: Size(double.infinity, 40.0),
-                    ),
-                    child: Text('Lets Gooo!!!'),
-                    ),
-                  
-                
+                  },
+                  style: FilledButton.styleFrom(
+                    minimumSize: Size(double.infinity, 40.0),
+                  ),
+                  child: Text('Lets Gooo!!!'),
+                ),
               ],
             ),
           ),
@@ -76,5 +70,4 @@ class Onboarding_Page extends StatelessWidget {
       ),
     );
   }
-
 }

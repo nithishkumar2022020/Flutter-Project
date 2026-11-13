@@ -21,7 +21,8 @@ class QueryCanvasScreen extends StatefulWidget {
   State<QueryCanvasScreen> createState() => _QueryCanvasScreenState();
 }
 
-class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKeepAliveClientMixin {
+class _QueryCanvasScreenState extends State<QueryCanvasScreen>
+    with AutomaticKeepAliveClientMixin {
   final TextEditingController _promptController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
@@ -51,7 +52,8 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
 
     final ragSession = context.read<RagSessionProvider>();
     final settings = context.read<SettingsProvider>().settings;
-    final selectedDocIds = context.read<CorpusProvider>().selectedDocumentIds.toList();
+    final selectedDocIds =
+        context.read<CorpusProvider>().selectedDocumentIds.toList();
 
     ragSession.submitQuery(
       text,
@@ -74,12 +76,13 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => _DocumentScopePickerSheet(
-        onOpenCorpus: () {
-          Navigator.of(context).pop();
-          widget.onNavigateToCorpus?.call();
-        },
-      ),
+      builder:
+          (_) => _DocumentScopePickerSheet(
+            onOpenCorpus: () {
+              Navigator.of(context).pop();
+              widget.onNavigateToCorpus?.call();
+            },
+          ),
     );
   }
 
@@ -88,15 +91,21 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
     super.build(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final textColor = isDark ? AppTheme.nocturneText : AppTheme.parchmentText;
-    final mutedText = isDark ? AppTheme.nocturneMutedText : AppTheme.parchmentMutedText;
-    final vermilion = isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
-    final borderColor = isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
-    final surfaceColor = isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
+    final mutedText =
+        isDark ? AppTheme.nocturneMutedText : AppTheme.parchmentMutedText;
+    final vermilion =
+        isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
+    final borderColor =
+        isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
+    final surfaceColor =
+        isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
 
     return Consumer<RagSessionProvider>(
       builder: (context, session, _) {
         if (session.isStreaming) {
-          WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
+          WidgetsBinding.instance.addPostFrameCallback(
+            (_) => _scrollToBottom(),
+          );
         }
 
         return Scaffold(
@@ -106,9 +115,14 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
               children: [
                 // Minimal Top Stream Status Header
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
                   decoration: BoxDecoration(
-                    border: Border(bottom: BorderSide(color: borderColor, width: 2)),
+                    border: Border(
+                      bottom: BorderSide(color: borderColor, width: 2),
+                    ),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -119,11 +133,14 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
                             width: 10,
                             height: 10,
                             decoration: BoxDecoration(
-                              color: session.isStreaming
-                                  ? vermilion
-                                  : (session.errorMessage != null
+                              color:
+                                  session.isStreaming
                                       ? vermilion
-                                      : (session.isComplete ? AppTheme.parchmentSage : mutedText)),
+                                      : (session.errorMessage != null
+                                          ? vermilion
+                                          : (session.isComplete
+                                              ? AppTheme.parchmentSage
+                                              : mutedText)),
                               shape: BoxShape.circle,
                             ),
                           ),
@@ -133,9 +150,15 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
                                 ? 'STREAMING ACTIVE'
                                 : (session.errorMessage != null
                                     ? 'REQUEST FAILED'
-                                    : (session.isComplete ? 'SYNTHESIS COMPLETE' : 'CANVAS STANDBY')),
+                                    : (session.isComplete
+                                        ? 'SYNTHESIS COMPLETE'
+                                        : 'CANVAS STANDBY')),
                             style: AppTheme.monospace(
-                              color: session.errorMessage != null && !session.isStreaming ? vermilion : textColor,
+                              color:
+                                  session.errorMessage != null &&
+                                          !session.isStreaming
+                                      ? vermilion
+                                      : textColor,
                               fontSize: 11,
                               fontWeight: FontWeight.bold,
                             ),
@@ -156,32 +179,49 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
                             const SizedBox(width: 8),
                           ],
                           Consumer<SettingsProvider>(
-                            builder: (context, settingsProv, _) => GestureDetector(
-                              key: const Key('header_profile_badge'),
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  SmoothPageRoute(page: const UserProfileScreen()),
-                                );
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
-                                decoration: BoxDecoration(
-                                  color: vermilion.withValues(alpha: 0.15),
-                                  border: Border.all(color: vermilion, width: 1.5),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(Icons.person_outline, size: 12, color: vermilion),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      settingsProv.callSign,
-                                      style: AppTheme.monospace(color: vermilion, fontSize: 10, fontWeight: FontWeight.bold),
+                            builder:
+                                (context, settingsProv, _) => GestureDetector(
+                                  key: const Key('header_profile_badge'),
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      SmoothPageRoute(
+                                        page: const UserProfileScreen(),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 7,
+                                      vertical: 3,
                                     ),
-                                  ],
+                                    decoration: BoxDecoration(
+                                      color: vermilion.withValues(alpha: 0.15),
+                                      border: Border.all(
+                                        color: vermilion,
+                                        width: 1.5,
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.person_outline,
+                                          size: 12,
+                                          color: vermilion,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          settingsProv.callSign,
+                                          style: AppTheme.monospace(
+                                            color: vermilion,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
                           ),
                         ],
                       ),
@@ -203,14 +243,21 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
                             if (session.currentQuery.isNotEmpty) ...[
                               Text(
                                 'ACTIVE PROMPT',
-                                style: AppTheme.monospace(color: mutedText, fontSize: 11, fontWeight: FontWeight.bold),
+                                style: AppTheme.monospace(
+                                  color: mutedText,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               const SizedBox(height: 6),
                               BrutalistContainer(
                                 backgroundColor: surfaceColor,
                                 child: Text(
                                   session.currentQuery,
-                                  style: AppTheme.slabHeader(color: textColor, fontSize: 16),
+                                  style: AppTheme.slabHeader(
+                                    color: textColor,
+                                    fontSize: 16,
+                                  ),
                                 ),
                               ),
                               const SizedBox(height: 16),
@@ -232,30 +279,49 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
                             // Answer Canvas (shown once tokens/response begin arriving)
                             if (session.streamedAnswer.isNotEmpty) ...[
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'SYNTHESIZED GROUNDED RESPONSE',
-                                    style: AppTheme.monospace(color: mutedText, fontSize: 11, fontWeight: FontWeight.bold),
+                                    style: AppTheme.monospace(
+                                      color: mutedText,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                   if (session.isStreaming)
                                     SizedBox(
                                       width: 12,
                                       height: 12,
-                                      child: CircularProgressIndicator(strokeWidth: 2, color: vermilion),
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        color: vermilion,
+                                      ),
                                     )
                                   else if (session.streamedAnswer.isNotEmpty)
                                     GestureDetector(
                                       key: const Key('copy_answer_btn'),
                                       onTap: () {
-                                        Clipboard.setData(ClipboardData(text: session.streamedAnswer));
-                                        ScaffoldMessenger.of(context).showSnackBar(
+                                        Clipboard.setData(
+                                          ClipboardData(
+                                            text: session.streamedAnswer,
+                                          ),
+                                        );
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
                                           SnackBar(
                                             content: Text(
                                               'Response copied to clipboard.',
-                                              style: AppTheme.monospace(color: Colors.white, fontSize: 12),
+                                              style: AppTheme.monospace(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                              ),
                                             ),
-                                            duration: const Duration(seconds: 2),
+                                            duration: const Duration(
+                                              seconds: 2,
+                                            ),
                                             backgroundColor: borderColor,
                                           ),
                                         );
@@ -263,7 +329,11 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Icon(Icons.copy_outlined, size: 12, color: mutedText),
+                                          Icon(
+                                            Icons.copy_outlined,
+                                            size: 12,
+                                            color: mutedText,
+                                          ),
                                           const SizedBox(width: 4),
                                           Text(
                                             'COPY',
@@ -288,7 +358,11 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
                                 const SizedBox(height: 14),
                                 Text(
                                   'SOURCES (${session.citations.length})',
-                                  style: AppTheme.monospace(color: mutedText, fontSize: 10, fontWeight: FontWeight.bold),
+                                  style: AppTheme.monospace(
+                                    color: mutedText,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                                 const SizedBox(height: 6),
                                 BrutalistContainer(
@@ -297,61 +371,103 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
                                   shadowOffset: const Offset(2, 2),
                                   child: Column(
                                     children: [
-                                      for (var i = 0; i < session.citations.length; i++) ...[
+                                      for (
+                                        var i = 0;
+                                        i < session.citations.length;
+                                        i++
+                                      ) ...[
                                         if (i > 0)
                                           Divider(
                                             height: 1,
                                             thickness: 1,
-                                            color: borderColor.withValues(alpha: 0.15),
+                                            color: borderColor.withValues(
+                                              alpha: 0.15,
+                                            ),
                                           ),
                                         InkWell(
-                                          onTap: () => showEvidenceBottomSheet(context, session.citations[i]),
+                                          onTap:
+                                              () => showEvidenceBottomSheet(
+                                                context,
+                                                session.citations[i],
+                                              ),
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 12,
+                                              vertical: 10,
+                                            ),
                                             child: Row(
                                               children: [
                                                 Container(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                                  padding:
+                                                      const EdgeInsets.symmetric(
+                                                        horizontal: 6,
+                                                        vertical: 2,
+                                                      ),
                                                   decoration: BoxDecoration(
                                                     color: Color.alphaBlend(
-                                                      vermilion.withValues(alpha: 0.12),
+                                                      vermilion.withValues(
+                                                        alpha: 0.12,
+                                                      ),
                                                       surfaceColor,
                                                     ),
-                                                    border: Border.all(color: vermilion, width: 1),
+                                                    border: Border.all(
+                                                      color: vermilion,
+                                                      width: 1,
+                                                    ),
                                                   ),
                                                   child: Text(
                                                     '[${session.citations[i].id}]',
                                                     style: AppTheme.monospace(
                                                       color: vermilion,
                                                       fontSize: 11,
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                     ),
                                                   ),
                                                 ),
                                                 const SizedBox(width: 10),
                                                 Expanded(
                                                   child: Text(
-                                                    session.citations[i].displayTitle,
+                                                    session
+                                                        .citations[i]
+                                                        .displayTitle,
                                                     maxLines: 1,
-                                                    overflow: TextOverflow.ellipsis,
-                                                    style: AppTheme.readingSerif(
-                                                      color: textColor,
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w600,
-                                                      height: 1.2,
-                                                    ).copyWith(
-                                                      decoration: TextDecoration.underline,
-                                                      decorationColor: vermilion.withValues(alpha: 0.6),
-                                                    ),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style:
+                                                        AppTheme.readingSerif(
+                                                          color: textColor,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          height: 1.2,
+                                                        ).copyWith(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .underline,
+                                                          decorationColor:
+                                                              vermilion
+                                                                  .withValues(
+                                                                    alpha: 0.6,
+                                                                  ),
+                                                        ),
                                                   ),
                                                 ),
-                                                if (session.citations[i].page != null) ...[
+                                                if (session.citations[i].page !=
+                                                    null) ...[
                                                   const SizedBox(width: 8),
                                                   Container(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                                    padding:
+                                                        const EdgeInsets.symmetric(
+                                                          horizontal: 6,
+                                                          vertical: 2,
+                                                        ),
                                                     decoration: BoxDecoration(
                                                       border: Border.all(
-                                                        color: borderColor.withValues(alpha: 0.3),
+                                                        color: borderColor
+                                                            .withValues(
+                                                              alpha: 0.3,
+                                                            ),
                                                         width: 1,
                                                       ),
                                                     ),
@@ -360,13 +476,18 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
                                                       style: AppTheme.monospace(
                                                         color: mutedText,
                                                         fontSize: 10,
-                                                        fontWeight: FontWeight.bold,
+                                                        fontWeight:
+                                                            FontWeight.bold,
                                                       ),
                                                     ),
                                                   ),
                                                 ],
                                                 const SizedBox(width: 8),
-                                                Icon(Icons.open_in_new, size: 14, color: vermilion),
+                                                Icon(
+                                                  Icons.open_in_new,
+                                                  size: 14,
+                                                  color: vermilion,
+                                                ),
                                               ],
                                             ),
                                           ),
@@ -380,20 +501,27 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
                             ],
 
                             // Empty state guidance
-                            if (session.currentQuery.isEmpty && !session.isStreaming) ...[
+                            if (session.currentQuery.isEmpty &&
+                                !session.isStreaming) ...[
                               const SizedBox(height: 40),
                               Center(
                                 child: Column(
                                   children: [
                                     Text(
                                       'ARCHIVAL RAG CANVASES',
-                                      style: AppTheme.slabHeader(color: textColor, fontSize: 22),
+                                      style: AppTheme.slabHeader(
+                                        color: textColor,
+                                        fontSize: 22,
+                                      ),
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
                                       'Submit a query below to initiate low-latency SSE token streaming with reactive citation badges.',
                                       textAlign: TextAlign.center,
-                                      style: AppTheme.readingSerif(color: mutedText, fontSize: 14),
+                                      style: AppTheme.readingSerif(
+                                        color: mutedText,
+                                        fontSize: 14,
+                                      ),
                                     ),
                                     const SizedBox(height: 24),
                                     Wrap(
@@ -401,9 +529,15 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
                                       runSpacing: 8,
                                       alignment: WrapAlignment.center,
                                       children: [
-                                        _buildPromptChip('What is dense neural IR?'),
-                                        _buildPromptChip('How does cross-encoder reranking work?'),
-                                        _buildPromptChip('Explain 1536-D embedding projections'),
+                                        _buildPromptChip(
+                                          'What is dense neural IR?',
+                                        ),
+                                        _buildPromptChip(
+                                          'How does cross-encoder reranking work?',
+                                        ),
+                                        _buildPromptChip(
+                                          'Explain 1536-D embedding projections',
+                                        ),
                                       ],
                                     ),
                                   ],
@@ -415,14 +549,20 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
                             if (session.errorMessage != null) ...[
                               const SizedBox(height: 12),
                               BrutalistContainer(
-                                backgroundColor: vermilion.withValues(alpha: 0.08),
+                                backgroundColor: vermilion.withValues(
+                                  alpha: 0.08,
+                                ),
                                 borderColor: vermilion,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
                                       children: [
-                                        Icon(Icons.error_outline, size: 16, color: vermilion),
+                                        Icon(
+                                          Icons.error_outline,
+                                          size: 16,
+                                          color: vermilion,
+                                        ),
                                         const SizedBox(width: 8),
                                         Expanded(
                                           child: Text(
@@ -435,9 +575,15 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
                                           ),
                                         ),
                                         GestureDetector(
-                                          key: const Key('query_error_dismiss_btn'),
+                                          key: const Key(
+                                            'query_error_dismiss_btn',
+                                          ),
                                           onTap: session.clearError,
-                                          child: Icon(Icons.close, size: 16, color: mutedText),
+                                          child: Icon(
+                                            Icons.close,
+                                            size: 16,
+                                            color: mutedText,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -455,8 +601,15 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
                                       GestureDetector(
                                         key: const Key('query_retry_btn'),
                                         onTap: () {
-                                          final settings = context.read<SettingsProvider>().settings;
-                                          final selectedIds = context.read<CorpusProvider>().selectedDocumentIds.toList();
+                                          final settings =
+                                              context
+                                                  .read<SettingsProvider>()
+                                                  .settings;
+                                          final selectedIds =
+                                              context
+                                                  .read<CorpusProvider>()
+                                                  .selectedDocumentIds
+                                                  .toList();
                                           session.submitQuery(
                                             session.currentQuery,
                                             settings: settings,
@@ -464,10 +617,16 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
                                           );
                                         },
                                         child: Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                            vertical: 6,
+                                          ),
                                           decoration: BoxDecoration(
                                             color: vermilion,
-                                            border: Border.all(color: borderColor, width: 1.5),
+                                            border: Border.all(
+                                              color: borderColor,
+                                              width: 1.5,
+                                            ),
                                           ),
                                           child: Text(
                                             'RETRY QUERY',
@@ -503,22 +662,37 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
                     } else if (selected.length == 1) {
                       label = 'SCOPE: ${selected.first.title}';
                     } else {
-                      label = 'SCOPE: ${selected.length} PDFS (${selected.first.title} +${selected.length - 1})';
+                      label =
+                          'SCOPE: ${selected.length} PDFS (${selected.first.title} +${selected.length - 1})';
                     }
 
                     return Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 7,
+                      ),
                       decoration: BoxDecoration(
-                        color: selected.isNotEmpty
-                            ? Color.alphaBlend(vermilion.withValues(alpha: 0.08), surfaceColor)
-                            : surfaceColor,
-                        border: Border(top: BorderSide(color: borderColor.withValues(alpha: 0.35), width: 1)),
+                        color:
+                            selected.isNotEmpty
+                                ? Color.alphaBlend(
+                                  vermilion.withValues(alpha: 0.08),
+                                  surfaceColor,
+                                )
+                                : surfaceColor,
+                        border: Border(
+                          top: BorderSide(
+                            color: borderColor.withValues(alpha: 0.35),
+                            width: 1,
+                          ),
+                        ),
                       ),
                       child: Row(
                         children: [
                           Icon(
-                            selected.isEmpty ? Icons.storage_outlined : Icons.description_outlined,
+                            selected.isEmpty
+                                ? Icons.storage_outlined
+                                : Icons.description_outlined,
                             size: 13,
                             color: selected.isNotEmpty ? vermilion : mutedText,
                           ),
@@ -532,7 +706,10 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: AppTheme.monospace(
-                                  color: selected.isNotEmpty ? vermilion : mutedText,
+                                  color:
+                                      selected.isNotEmpty
+                                          ? vermilion
+                                          : mutedText,
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -556,7 +733,11 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
                             GestureDetector(
                               key: const Key('query_scope_clear_btn'),
                               onTap: corpus.clearSelection,
-                              child: Icon(Icons.close, size: 14, color: vermilion),
+                              child: Icon(
+                                Icons.close,
+                                size: 14,
+                                color: vermilion,
+                              ),
                             ),
                           ],
                         ],
@@ -567,10 +748,15 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
 
                 // Prompt Input Bar with Neo-Brutalist Border
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
                   decoration: BoxDecoration(
                     color: surfaceColor,
-                    border: Border(top: BorderSide(color: borderColor, width: 2)),
+                    border: Border(
+                      top: BorderSide(color: borderColor, width: 2),
+                    ),
                   ),
                   child: Row(
                     children: [
@@ -578,26 +764,46 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
                         child: TextField(
                           key: const Key('query_prompt_input'),
                           controller: _promptController,
-                          style: AppTheme.readingSerif(color: textColor, fontSize: 15),
+                          style: AppTheme.readingSerif(
+                            color: textColor,
+                            fontSize: 15,
+                          ),
                           textInputAction: TextInputAction.send,
                           onSubmitted: (_) => _handleSend(),
                           decoration: InputDecoration(
-                            hintText: 'Enter inquiry to stream grounded synthesis...',
-                            hintStyle: AppTheme.readingSerif(color: mutedText, fontSize: 14),
+                            hintText:
+                                'Enter inquiry to stream grounded synthesis...',
+                            hintStyle: AppTheme.readingSerif(
+                              color: mutedText,
+                              fontSize: 14,
+                            ),
                             border: InputBorder.none,
                             isDense: true,
-                            contentPadding: const EdgeInsets.symmetric(vertical: 8),
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 8,
+                            ),
                           ),
                         ),
                       ),
                       const SizedBox(width: 8),
                       GestureDetector(
                         key: const Key('query_submit_btn'),
-                        onTap: session.isStreaming ? session.cancelActiveStream : _handleSend,
+                        onTap:
+                            session.isStreaming
+                                ? session.cancelActiveStream
+                                : _handleSend,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 10,
+                          ),
                           decoration: AppTheme.brutalistDecoration(
-                            bgColor: session.isStreaming ? (isDark ? AppTheme.nocturneAmber : AppTheme.parchmentAmber) : vermilion,
+                            bgColor:
+                                session.isStreaming
+                                    ? (isDark
+                                        ? AppTheme.nocturneAmber
+                                        : AppTheme.parchmentAmber)
+                                    : vermilion,
                             borderColor: borderColor,
                             borderWidth: 1.5,
                             shadowOffset: const Offset(2, 2),
@@ -625,7 +831,8 @@ class _QueryCanvasScreenState extends State<QueryCanvasScreen> with AutomaticKee
 
   Widget _buildPromptChip(String prompt) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final borderColor = isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
+    final borderColor =
+        isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
     final textColor = isDark ? AppTheme.nocturneText : AppTheme.parchmentText;
 
     return GestureDetector(
@@ -661,7 +868,8 @@ class _DocumentScopePickerSheet extends StatefulWidget {
   const _DocumentScopePickerSheet({required this.onOpenCorpus});
 
   @override
-  State<_DocumentScopePickerSheet> createState() => _DocumentScopePickerSheetState();
+  State<_DocumentScopePickerSheet> createState() =>
+      _DocumentScopePickerSheetState();
 }
 
 class _DocumentScopePickerSheetState extends State<_DocumentScopePickerSheet> {
@@ -671,7 +879,8 @@ class _DocumentScopePickerSheetState extends State<_DocumentScopePickerSheet> {
   Set<String> _dragBaseSelection = {};
   bool _dragSelectMode = true;
 
-  GlobalKey _keyFor(int index) => _rowKeys.putIfAbsent(index, () => GlobalKey());
+  GlobalKey _keyFor(int index) =>
+      _rowKeys.putIfAbsent(index, () => GlobalKey());
 
   void _startDrag(int index, CorpusProvider corpus) {
     if (index < 0 || index >= corpus.documents.length) return;
@@ -698,7 +907,8 @@ class _DocumentScopePickerSheetState extends State<_DocumentScopePickerSheet> {
       if (box == null || !box.attached) continue;
       final topLeft = box.localToGlobal(Offset.zero);
       final bottom = topLeft.dy + box.size.height;
-      if (globalPosition.dy >= topLeft.dy - 4 && globalPosition.dy <= bottom + 4) {
+      if (globalPosition.dy >= topLeft.dy - 4 &&
+          globalPosition.dy <= bottom + 4) {
         if (entry.key != _dragLastIndex) {
           _dragLastIndex = entry.key;
           HapticFeedback.selectionClick();
@@ -723,11 +933,15 @@ class _DocumentScopePickerSheetState extends State<_DocumentScopePickerSheet> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor = isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
+    final bgColor =
+        isDark ? AppTheme.nocturneSurface : AppTheme.parchmentSurface;
     final textColor = isDark ? AppTheme.nocturneText : AppTheme.parchmentText;
-    final mutedText = isDark ? AppTheme.nocturneMutedText : AppTheme.parchmentMutedText;
-    final vermilion = isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
-    final borderColor = isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
+    final mutedText =
+        isDark ? AppTheme.nocturneMutedText : AppTheme.parchmentMutedText;
+    final vermilion =
+        isDark ? AppTheme.nocturneVermilion : AppTheme.parchmentVermilion;
+    final borderColor =
+        isDark ? AppTheme.nocturneBorder : AppTheme.parchmentBorder;
 
     return Consumer<CorpusProvider>(
       builder: (context, corpus, _) {
@@ -759,12 +973,18 @@ class _DocumentScopePickerSheetState extends State<_DocumentScopePickerSheet> {
                           children: [
                             Text(
                               'SELECT RAG DOCUMENTS',
-                              style: AppTheme.slabHeader(color: textColor, fontSize: 17),
+                              style: AppTheme.slabHeader(
+                                color: textColor,
+                                fontSize: 17,
+                              ),
                             ),
                             const SizedBox(height: 2),
                             Text(
                               'Tap 1 PDF or hold & slide across multiple files',
-                              style: AppTheme.monospace(color: mutedText, fontSize: 10),
+                              style: AppTheme.monospace(
+                                color: mutedText,
+                                fontSize: 10,
+                              ),
                             ),
                           ],
                         ),
@@ -790,7 +1010,10 @@ class _DocumentScopePickerSheetState extends State<_DocumentScopePickerSheet> {
                       GestureDetector(
                         onTap: corpus.clearSelection,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 5,
+                          ),
                           decoration: BoxDecoration(
                             color: count == 0 ? vermilion : Colors.transparent,
                             border: Border.all(
@@ -812,7 +1035,10 @@ class _DocumentScopePickerSheetState extends State<_DocumentScopePickerSheet> {
                       GestureDetector(
                         onTap: corpus.selectAll,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 5,
+                          ),
                           decoration: BoxDecoration(
                             border: Border.all(color: borderColor, width: 1.5),
                           ),
@@ -830,7 +1056,10 @@ class _DocumentScopePickerSheetState extends State<_DocumentScopePickerSheet> {
                       GestureDetector(
                         onTap: () => Navigator.of(context).pop(),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 5,
+                          ),
                           color: borderColor,
                           child: Text(
                             'DONE',
@@ -862,16 +1091,27 @@ class _DocumentScopePickerSheetState extends State<_DocumentScopePickerSheet> {
                           behavior: HitTestBehavior.opaque,
                           onTap: () => corpus.toggleSelection(doc.id),
                           onLongPressStart: (_) => _startDrag(index, corpus),
-                          onLongPressMoveUpdate: (d) => _updateDrag(d.globalPosition, corpus),
+                          onLongPressMoveUpdate:
+                              (d) => _updateDrag(d.globalPosition, corpus),
                           onLongPressEnd: (_) => _endDrag(),
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 10,
+                            ),
                             decoration: BoxDecoration(
-                              color: isSelected
-                                  ? Color.alphaBlend(vermilion.withValues(alpha: 0.1), bgColor)
-                                  : bgColor,
+                              color:
+                                  isSelected
+                                      ? Color.alphaBlend(
+                                        vermilion.withValues(alpha: 0.1),
+                                        bgColor,
+                                      )
+                                      : bgColor,
                               border: Border.all(
-                                color: isSelected ? vermilion : borderColor.withValues(alpha: 0.45),
+                                color:
+                                    isSelected
+                                        ? vermilion
+                                        : borderColor.withValues(alpha: 0.45),
                                 width: isSelected ? 2 : 1,
                               ),
                             ),
@@ -881,20 +1121,30 @@ class _DocumentScopePickerSheetState extends State<_DocumentScopePickerSheet> {
                                   width: 18,
                                   height: 18,
                                   decoration: BoxDecoration(
-                                    color: isSelected ? vermilion : Colors.transparent,
+                                    color:
+                                        isSelected
+                                            ? vermilion
+                                            : Colors.transparent,
                                     border: Border.all(
-                                      color: isSelected ? vermilion : borderColor,
+                                      color:
+                                          isSelected ? vermilion : borderColor,
                                       width: 1.5,
                                     ),
                                   ),
-                                  child: isSelected
-                                      ? const Icon(Icons.check, size: 13, color: Colors.white)
-                                      : null,
+                                  child:
+                                      isSelected
+                                          ? const Icon(
+                                            Icons.check,
+                                            size: 13,
+                                            color: Colors.white,
+                                          )
+                                          : null,
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         doc.title,
@@ -912,7 +1162,10 @@ class _DocumentScopePickerSheetState extends State<_DocumentScopePickerSheet> {
                                         '${doc.filename} · ${doc.chunkCount} chunks',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
-                                        style: AppTheme.monospace(color: mutedText, fontSize: 10),
+                                        style: AppTheme.monospace(
+                                          color: mutedText,
+                                          fontSize: 10,
+                                        ),
                                       ),
                                     ],
                                   ),

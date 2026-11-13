@@ -55,7 +55,9 @@ class CorpusRepository implements ICorpusRepository {
 
     final client = _injectedClient ?? http.Client();
     try {
-      final streamed = await client.send(request).timeout(const Duration(seconds: 60));
+      final streamed = await client
+          .send(request)
+          .timeout(const Duration(seconds: 60));
       final respBytes = await streamed.stream.toBytes();
       final bodyStr = utf8.decode(respBytes, allowMalformed: true);
 
@@ -65,12 +67,14 @@ class CorpusRepository implements ICorpusRepository {
           throw Exception('Unexpected JSON response from $targetUrl');
         }
 
-        final docId = decoded['document_id']?.toString() ??
+        final docId =
+            decoded['document_id']?.toString() ??
             'doc_${DateTime.now().millisecondsSinceEpoch}';
         final respFilename = decoded['filename']?.toString() ?? filename;
-        final chunks = decoded['chunks'] is int
-            ? decoded['chunks'] as int
-            : int.tryParse(decoded['chunks']?.toString() ?? '0') ?? 0;
+        final chunks =
+            decoded['chunks'] is int
+                ? decoded['chunks'] as int
+                : int.tryParse(decoded['chunks']?.toString() ?? '0') ?? 0;
 
         final entry = DocumentEntry(
           id: docId,
@@ -96,7 +100,9 @@ class CorpusRepository implements ICorpusRepository {
         }
       } catch (_) {}
 
-      throw Exception('HTTP ${streamed.statusCode}: ${detail.isNotEmpty ? detail : 'Upload rejected'}');
+      throw Exception(
+        'HTTP ${streamed.statusCode}: ${detail.isNotEmpty ? detail : 'Upload rejected'}',
+      );
     } finally {
       if (_injectedClient == null) {
         client.close();
@@ -138,10 +144,11 @@ class CorpusRepository implements ICorpusRepository {
       if (raw == null || raw.isEmpty) return;
       final decoded = jsonDecode(raw);
       if (decoded is List) {
-        _documents = decoded
-            .whereType<Map<String, dynamic>>()
-            .map(DocumentEntry.fromJson)
-            .toList();
+        _documents =
+            decoded
+                .whereType<Map<String, dynamic>>()
+                .map(DocumentEntry.fromJson)
+                .toList();
       }
     } catch (_) {}
   }
