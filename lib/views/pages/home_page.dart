@@ -28,7 +28,8 @@ class HomePage extends StatelessWidget {
         padding: EdgeInsets.all(20.0),
         child: Column(
           children: [
-            HeroWidget(title: 'home', nextPage: coursePage()),
+            HeroWidget(title: 'home', nextPage: coursePage(),
+            ),
 
             ...List.generate(
               list.length,

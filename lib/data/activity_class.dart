@@ -36,8 +36,7 @@ class Activity {
         'kidFriendly': bool kidFriendly,
         'link': String link,
         'key': String key,
-      } =>
-        Activity(
+      } => Activity(
           activity: activity,
           availability: availability,
           type: type,
@@ -47,8 +46,7 @@ class Activity {
           duration: duration,
           kidFriendly: kidFriendly,
           link: link,
-          key: key,
-        ),
+          key: key),
       _ => throw const FormatException('Failed to load activity.............'),
     };
   }

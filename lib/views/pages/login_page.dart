@@ -7,13 +7,15 @@ import 'package:my_flutter_proj_dq/views/widget_tree.dart';
 
 TextEditingController controllerEmail = TextEditingController(text: '123');
 TextEditingController controllerPassword = TextEditingController(text: '123');
-String email = '123';
-String password = '123';
-
+String email='123';
+String password='123';
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key, required this.title});
+  const LoginPage({
+    super.key,
+    required this.title,
+  });
 
-  final String title;
+final String title;
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -51,43 +53,44 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               children: [
                 Lottie.asset('assets/lotties/login2.json'),
-
-                TextField(
-                  controller: controllerEmail,
-                  decoration: InputDecoration(
-                    hintText: 'Enter your email',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
+                
+                  TextField(
+                    controller: controllerEmail,
+                    decoration: InputDecoration(
+                      hintText: 'Enter your email',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                     ),
+                    onEditingComplete: () {
+                      setState(() {});
+                    },
                   ),
-                  onEditingComplete: () {
-                    setState(() {});
-                  },
-                ),
-
+                
                 SizedBox(height: 10),
-                TextField(
-                  controller: controllerPassword,
-                  decoration: InputDecoration(
-                    hintText: 'Enter your password',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
+                  TextField(
+                    controller: controllerPassword,
+                    decoration: InputDecoration(
+                      hintText: 'Enter your password',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                     ),
+                    onEditingComplete: () {
+                      setState(() {});
+                    },
                   ),
-                  onEditingComplete: () {
-                    setState(() {});
-                  },
-                ),
-                SizedBox(height: 20),
-                OutlinedButton(
-                  onPressed: () {
-                    LoginonPressed();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, 40.0),
-                  ),
-                  child: Text(widget.title),
-                ),
+                  SizedBox(height: 20),
+                    OutlinedButton(onPressed: () {
+                      LoginonPressed();
+                    }, 
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(double.infinity, 40.0),
+                    ),
+                    child: Text(widget.title),
+                    ),
+                  
+                
               ],
             ),
           ),
@@ -95,18 +98,18 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
   void LoginonPressed() {
     if (email == controllerEmail.text && password == controllerPassword.text) {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return WidgetTree();
-          },
-        ),
-        (route) => false,
-      );
-    }
+    Navigator.pushAndRemoveUntil(
+                    context, MaterialPageRoute(
+                      builder: (
+                        context) {
+                    return WidgetTree();
+                  },
+                  ),
+                  (route) => false,
+                  );
+
   }
+}
 }

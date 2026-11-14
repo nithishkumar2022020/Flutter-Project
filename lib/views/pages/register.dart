@@ -7,13 +7,15 @@ import 'package:my_flutter_proj_dq/views/widget_tree.dart';
 
 TextEditingController controllerEmail = TextEditingController();
 TextEditingController controllerPassword = TextEditingController();
-
 // String email='123';
 // String password='123';
 class Register_Page extends StatefulWidget {
-  const Register_Page({super.key, required this.title});
+  const Register_Page({
+    super.key,
+    required this.title,
+  });
 
-  final String title;
+final String title;
   @override
   State<Register_Page> createState() => _Register_PageState();
 }
@@ -55,62 +57,62 @@ class _Register_PageState extends State<Register_Page> {
                   controller: TextEditingController(),
                   decoration: InputDecoration(
                     hintText: 'Enter Your name',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(20))
                   ),
                 ),
-                SizedBox(height: 10),
-                TextField(
-                  controller: controllerEmail,
-                  decoration: InputDecoration(
-                    hintText: 'Enter your email',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  onEditingComplete: () {
-                    setState(() {});
-                  },
-                ),
+                SizedBox(height:10),
+                  TextField(
 
-                SizedBox(height: 10),
-                TextField(
-                  controller: controllerPassword,
-                  decoration: InputDecoration(
-                    hintText: 'Enter your password',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
+                    controller: controllerEmail,
+                    decoration: InputDecoration(
+                      hintText: 'Enter your email',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                     ),
+                    onEditingComplete: () {
+                      setState(() {});
+                    },
                   ),
-                  onEditingComplete: () {
-                    setState(() {});
-                  },
-                ),
+                
                 SizedBox(height: 10),
-                //SizedBox(height: 10),
-                TextField(
-                  controller: controllerPassword,
-                  decoration: InputDecoration(
-                    hintText: 'Confirm your password',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
+                  TextField(
+                    controller: controllerPassword,
+                    decoration: InputDecoration(
+                      hintText: 'Enter your password',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                     ),
+                    onEditingComplete: () {
+                      setState(() {});
+                    },
                   ),
-                  onEditingComplete: () {
-                    setState(() {});
-                  },
-                ),
-                SizedBox(height: 20),
-                OutlinedButton(
-                  onPressed: () {
-                    LoginonPressed();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, 40.0),
+                  SizedBox(height: 10),
+                  //SizedBox(height: 10),
+                  TextField(
+                    controller: controllerPassword,
+                    decoration: InputDecoration(
+                      hintText: 'Confirm your password',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    onEditingComplete: () {
+                      setState(() {});
+                    },
                   ),
-                  child: Text(widget.title),
-                ),
+                  SizedBox(height:20),
+                    OutlinedButton(onPressed: () {
+                      LoginonPressed();
+                    }, 
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(double.infinity, 40.0),
+                    ),
+                    child: Text(widget.title),
+                    ),
+                  
+                
               ],
             ),
           ),
@@ -118,19 +120,18 @@ class _Register_PageState extends State<Register_Page> {
       ),
     );
   }
-
   void LoginonPressed() {
     // if (email == controllerEmail.text && password == controllerPassword.text) {
     Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return WidgetTree();
-        },
-      ),
-      (route) => false,
-    );
+                    context, MaterialPageRoute(
+                      builder: (
+                        context) {
+                    return WidgetTree();
+                  },
+                  ),
+                  (route) => false,
+                  );
+
   }
 }
-
 //}

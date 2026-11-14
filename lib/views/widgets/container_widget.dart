@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:my_flutter_proj_dq/data/constants.dart';
 
 class ContainerWidget extends StatelessWidget {
-  const ContainerWidget({
-    super.key,
-    required this.title,
-    required this.description,
-  });
+  const ContainerWidget({super.key,
+  required this.title,
+  required this.description});
 
   final String title;
   final String description;
 
+
   @override
   Widget build(BuildContext context) {
+   
     return SizedBox(
       width: double.infinity,
       child: Padding(
@@ -24,7 +24,10 @@ class ContainerWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(title, style: KTextStyle.titleTealStyle),
-                Text(description, style: KTextStyle.descriptionText),
+                Text(
+                  description,
+                  style: KTextStyle.descriptionText,
+                ),
               ],
             ),
           ),

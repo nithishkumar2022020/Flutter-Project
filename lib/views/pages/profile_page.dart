@@ -21,14 +21,14 @@ class ProfilePage extends StatelessWidget {
           SizedBox(height: 40),
           FilledButton(
             onPressed: () {},
-
+            
             style: FilledButton.styleFrom(
               minimumSize: Size(double.infinity, 50),
             ),
             child: Text('Edit Profile'),
           ),
           SizedBox(height: 20),
-          Divider(thickness: 2),
+          Divider(thickness: 2,),
           ListTile(
             title: Text('Privacy and Secrity'),
             onTap: () {
