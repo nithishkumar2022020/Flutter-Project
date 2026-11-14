@@ -40,10 +40,7 @@ class WidgetTree extends StatelessWidget {
               pageThemeNotifier.value = !pageThemeNotifier.value;
               final SharedPreferences prefs =
                   await SharedPreferences.getInstance();
-              await prefs.setBool(
-                Kconstants.isDarkKey,
-                pageThemeNotifier.value,
-              );
+              await prefs.setBool(Kconstants.isDarkKey, pageThemeNotifier.value);
             },
             icon: ValueListenableBuilder(
               valueListenable: pageThemeNotifier,
