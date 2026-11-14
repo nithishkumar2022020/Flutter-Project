@@ -5,22 +5,17 @@ class Kconstants {
 }
 
 class KTextStyle {
-
   static const TextStyle titleTealStyle = TextStyle(
-                      color: Colors.teal,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold
-                      );
+    color: Colors.teal,
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+  );
 
-static const TextStyle descriptionText = TextStyle(
-                      
-                      fontSize: 16,
-                      
-                      );
+  static const TextStyle descriptionText = TextStyle(fontSize: 16);
 }
 
 class KValue {
-  static const String alert ='Alert';
+  static const String alert = 'Alert';
   static const String activity = 'Activity';
   static const String tracking = 'Tracking';
   static const String findLost = 'Find Lost';
